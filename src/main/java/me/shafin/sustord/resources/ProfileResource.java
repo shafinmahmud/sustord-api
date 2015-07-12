@@ -3,6 +3,8 @@
 package me.shafin.sustord.resources;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import me.shafin.sustord.exceptions.DataNotFoundException;
 import me.shafin.sustord.models.ErrorMessage;
+import me.shafin.sustord.models.StudentAcademicProfile;
 import me.shafin.sustord.models.StudentPersonalProfile;
+import me.shafin.sustord.services.AcademicInfoService;
 import me.shafin.sustord.services.PersonalInfoService;
 import org.hibernate.HibernateException;
 
@@ -43,15 +47,13 @@ public class ProfileResource {
             return Response.ok()
                     .entity(personal)
                     .build();
-        } catch (HibernateException | SQLException ex) {
+        } catch (HibernateException | SQLException | NullPointerException ex) {
             ErrorMessage error = new ErrorMessage();
             error.setErrorTitle("ServiceCreationError");
             error.setErrorBody(ex.toString());
             return Response.serverError()
                     .entity(error)
                     .build();
-        } catch(NullPointerException ex){
-            throw new DataNotFoundException("Reg No "+ID+" not Found "+ex.toString());
         }
     }
 
@@ -59,8 +61,20 @@ public class ProfileResource {
     @Path("/academic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAcademicProfile(@PathParam("id") String ID) {
-        return Response.serverError()
-                .build();
+        try {
+            StudentAcademicProfile academic = new AcademicInfoService(ID).getAllAcademicInfo();
+            return Response.ok()
+                    .entity(academic)
+                    .build();
+        } catch (HibernateException | NullPointerException | SQLException ex) {
+            Logger.getLogger(ProfileResource.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorMessage error = new ErrorMessage();
+            error.setErrorTitle("ServiceCreationError");
+            error.setErrorBody(ex.toString());
+            return Response.serverError()
+                    .entity(error)
+                    .build();
+        }
 
     }
 }
