@@ -2,12 +2,14 @@
  */
 package me.shafin.sustord.utilities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.shafin.sustord.dao.AdminInfoDao;
 import me.shafin.sustord.dao.StudentInfoDao;
 import me.shafin.sustord.entities.AdminInfo;
 import me.shafin.sustord.entities.StudentInfo;
+import org.hibernate.HibernateException;
 
 /**
  *
@@ -15,10 +17,11 @@ import me.shafin.sustord.entities.StudentInfo;
  */
 public class ServiceDispatcher {
 
-    private static final List<StudentInfo> singletonStudentInfoList = new ArrayList<StudentInfo>();
-    private static final List<AdminInfo> singletonAdminInfoList = new ArrayList<AdminInfo>();
+    private static final List<StudentInfo> singletonStudentInfoList = new ArrayList<>();
+    private static final List<AdminInfo> singletonAdminInfoList = new ArrayList<>();
 
-    public static StudentInfo getSingletonStudentInfo(String registrationNo) throws Exception {
+    public static StudentInfo getSingletonStudentInfo(String registrationNo) throws HibernateException, 
+                            SQLException, NullPointerException{
 
         if (!singletonStudentInfoList.isEmpty()) {
             for (StudentInfo studentInfo : singletonStudentInfoList) {
@@ -41,7 +44,7 @@ public class ServiceDispatcher {
         return newStudentInfo;
     }
     
-    public static AdminInfo getSingletonAdminInfo(String adminNo) throws Exception {
+    public static AdminInfo getSingletonAdminInfo(String adminNo) throws HibernateException, SQLException {
 
         if (!singletonAdminInfoList.isEmpty()) {
             for (AdminInfo adminInfo : singletonAdminInfoList) {
