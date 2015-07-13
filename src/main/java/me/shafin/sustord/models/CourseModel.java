@@ -1,0 +1,82 @@
+/*
+ */
+package me.shafin.sustord.models;
+
+/**
+ *
+ * @author SHAFIN
+ */
+public class CourseModel {
+
+    private String courseCode;
+    private String courseTitle;
+    private double credit;
+    private boolean isCourseTheory;
+    private String courseContent;
+    private String references;
+
+    public CourseModel() {
+    }
+
+    
+    public CourseModel(String courseCode, String courseTitle, double credit, 
+            boolean isCourseTheory, String courseContent, String references) {
+        this.courseCode = courseCode;
+        this.courseTitle = courseTitle;
+        this.credit = credit;
+        this.isCourseTheory = isCourseTheory;
+        this.courseContent = courseContent;
+        this.references = references;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
+    }
+
+    public double getCredit() {
+        return credit;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
+
+    public boolean isIsCourseTheory() {
+        return isCourseTheory;
+    }
+
+    public void setIsCourseTheory(boolean isCourseTheory) {
+        this.isCourseTheory = isCourseTheory;
+    }
+
+    public String getCourseContent() {
+        return courseContent;
+    }
+
+    public void setCourseContent(String courseContent) {
+        this.courseContent = courseContent;
+    }
+
+    public String getReferences() {
+        return references;
+    }
+
+    public void setReferences(String references) {
+        this.references = references;
+    }
+    
+    
+
+}

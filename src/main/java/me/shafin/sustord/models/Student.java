@@ -8,20 +8,22 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author SHAFIN
  */
-
 @XmlRootElement
 public class Student {
-    
+
     private String registrationNo;
     private String name;
-    
-    
 
     public Student() {
-    	
-	}
 
-	/**
+    }
+
+    public Student(String registrationNo, String name) {
+        this.registrationNo = registrationNo;
+        this.name = name;
+    }
+
+    /**
      * @return the registrationNo
      */
     public String getRegistrationNo() {
@@ -42,17 +44,16 @@ public class Student {
         return name;
     }
 
-
     /**
      * @param name the name to set
      */
     public void setName(String name) {
         this.name = name;
     }
-    
-       @Override
+
+    @Override
     public String toString() {
         return "StudentPojo{" + "registrationNo=" + registrationNo + ", name=" + name + '}';
     }
-    
+
 }
