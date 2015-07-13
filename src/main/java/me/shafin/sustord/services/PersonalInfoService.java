@@ -2,9 +2,12 @@
  */
 package me.shafin.sustord.services;
 
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.shafin.sustord.dao.PersonalInfoDao;
+import me.shafin.sustord.models.PersonalProfile;
+import org.hibernate.HibernateException;
 
 /**
  *
@@ -12,11 +15,12 @@ import me.shafin.sustord.dao.PersonalInfoDao;
  */
 public class PersonalInfoService extends StudentIdentityService{
 
-    private static final String NULL_RESPONSE = "";
-    private static final String ERROR_RESPONSE = ":/";
+    private static final String NULL_RESPONSE = "null";
+    private static final String ERROR_RESPONSE = "500 Server Error";
 
     /* Constructor thats is private and get accesses through static helper method  */
-    public PersonalInfoService(String registrationNo) throws Exception {
+    public PersonalInfoService(String registrationNo) throws HibernateException, 
+            SQLException, NullPointerException{
         super(StudentIdentityService.forSingletonIdentityService(registrationNo));
     }
 
@@ -31,7 +35,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -45,7 +49,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -59,7 +63,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -73,7 +77,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -87,7 +91,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -101,7 +105,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -115,7 +119,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -129,7 +133,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -143,7 +147,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -157,7 +161,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -171,7 +175,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -185,7 +189,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -199,7 +203,7 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
@@ -213,10 +217,31 @@ public class PersonalInfoService extends StudentIdentityService{
             } else {
                 return string;
             }
-        } catch (Exception ex) {
+        } catch (HibernateException | SQLException ex) {
             Logger.getLogger(PersonalInfoService.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR_RESPONSE;
         }
+    }
+    
+    public PersonalProfile getAllPersonalInfo(){
+        PersonalProfile personal = new PersonalProfile();
+        personal.setRegistrationNo(this.studentInfo.getRegistrationNo());
+        personal.setName(this.getStudentName());
+        personal.setFathersName(this.getFatherName());
+        personal.setMothersName(this.getMotherName());
+        personal.setEmail(this.getEmail());
+        personal.setPhoneNo(this.getPhone());
+        personal.setPresentAddress(this.getPresentAddress());
+        personal.setPermanentAddress(this.getPermanentAddress());
+        personal.setDob(this.getDob());
+        personal.setSex(this.getSex());
+        personal.setBloodGroup(this.getBloodGroup());
+        personal.setNationality(this.getNationality());
+        personal.setReligion(this.getReligion());
+        personal.setMaritalStatus(this.getMaritalStatus());
+        personal.setPhotoUrl(this.getStudentPhotoUrl());
+        
+        return personal;
     }
 
 }
