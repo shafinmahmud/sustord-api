@@ -36,6 +36,9 @@ public class Program {
         this.degreeCategory = degreeCategory;
     }
 
+    public void setProgramName() {
+        this.programName = this.degreeType+"("+this.degreeCategory+")";
+    }
     public String getProgramName() {
         return programName;
     }

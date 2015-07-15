@@ -15,30 +15,27 @@ public class CurriculumResult {
     
     private Student student;
     
-    private Department department;
+    private DepartmentModel department;
     private Program program;
     private String academicSession;
     
     private int curriculumSemester;
     private List<CourseResult> courseResults;
-    private double totalCreditsInCurriculum;
-    private double totalCreditsCompleted;
+    private CreditsSummation completedCreditsSummation;
 
     public CurriculumResult() {
     }
 
-    public CurriculumResult(Student student, Department department, 
-            Program program, String academicSession, 
-            int semester, List<CourseResult> courseResults, 
-            double totalCreditInCurriculum, double totalCreditCompleted) {
+    public CurriculumResult(Student student, DepartmentModel department, 
+            Program program, String academicSession, int curriculumSemester, 
+            List<CourseResult> courseResults, CreditsSummation completedCreditsSummation) {
         this.student = student;
         this.department = department;
         this.program = program;
         this.academicSession = academicSession;
-        this.curriculumSemester = semester;
+        this.curriculumSemester = curriculumSemester;
         this.courseResults = courseResults;
-        this.totalCreditsInCurriculum = totalCreditInCurriculum;
-        this.totalCreditsCompleted = totalCreditCompleted;
+        this.completedCreditsSummation = completedCreditsSummation;
     }
 
     public Student getStudent() {
@@ -49,11 +46,11 @@ public class CurriculumResult {
         this.student = student;
     }
 
-    public Department getDepartment() {
+    public DepartmentModel getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(DepartmentModel department) {
         this.department = department;
     }
 
@@ -89,20 +86,12 @@ public class CurriculumResult {
         this.courseResults = courseResults;
     }
 
-    public double getTotalCreditsInCurriculum() {
-        return totalCreditsInCurriculum;
+    public CreditsSummation getCompletedCreditsSummation() {
+        return completedCreditsSummation;
     }
 
-    public void setTotalCreditsInCurriculum(double totalCreditsInCurriculum) {
-        this.totalCreditsInCurriculum = totalCreditsInCurriculum;
+    public void setCompletedCreditsSummation(CreditsSummation completedCreditsSummation) {
+        this.completedCreditsSummation = completedCreditsSummation;
     }
 
-    public double getTotalCreditsCompleted() {
-        return totalCreditsCompleted;
-    }
-
-    public void setTotalCreditsCompleted(double totalCreditsCompleted) {
-        this.totalCreditsCompleted = totalCreditsCompleted;
-    } 
-    
 }

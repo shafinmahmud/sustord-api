@@ -6,16 +6,16 @@ package me.shafin.sustord.models;
  *
  * @author SHAFIN
  */
-public class Department {
+public class DepartmentModel {
     private String departmentCode;
     private String departmentName;
     private String schoolName;
 
-    public Department() {
+    public DepartmentModel() {
     }
 
     
-    public Department(String departmentCode, String departmentName, String schoolName) {
+    public DepartmentModel(String departmentCode, String departmentName, String schoolName) {
         this.departmentCode = departmentCode;
         this.departmentName = departmentName;
         this.schoolName = schoolName;

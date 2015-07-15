@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AcademicProfile extends Student {
 
-    private Department department;
+    private DepartmentModel department;
     private Program program;
     private String academicSession;
     private int totalAcademicSemester;
@@ -31,7 +31,7 @@ public class AcademicProfile extends Student {
         super(registrationNo, name);
     }
 
-    public AcademicProfile(Department department, Program program, 
+    public AcademicProfile(DepartmentModel department, Program program, 
             String academicSession, int totalAcademicSemester, 
             int maxAcademicSemester, int currentAcademicSemester, 
             int totalCourses, int coursesCompleted, double totalCredits, 
@@ -51,11 +51,11 @@ public class AcademicProfile extends Student {
         this.currentCgpa = currentCgpa;
     }
 
-    public Department getDepartment() {
+    public DepartmentModel getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(DepartmentModel department) {
         this.department = department;
     }
 

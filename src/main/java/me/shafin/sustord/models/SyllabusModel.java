@@ -8,32 +8,34 @@ import java.util.List;
  *
  * @author SHAFIN
  */
-public class Syllabus {
+public class SyllabusModel {
     
-    private Department department;
+    private DepartmentModel department;
     private Program program;
     private String academicSession;
     private int semester;
     private List<CourseInSyllabus> courses;
+    private CreditsSummation curriculumCreditSummation;
 
-    public Syllabus() {
+    public SyllabusModel() {
     }
 
-    public Syllabus(Department department, Program program, 
-            String academicSession, int semester, 
-            List<CourseInSyllabus> courses) {
+    public SyllabusModel(DepartmentModel department, Program program, 
+            String academicSession, int semester, List<CourseInSyllabus> courses, 
+            CreditsSummation creditsSummation) {
         this.department = department;
         this.program = program;
         this.academicSession = academicSession;
         this.semester = semester;
         this.courses = courses;
+        this.curriculumCreditSummation = creditsSummation;
     }
 
-    public Department getDepartment() {
+    public DepartmentModel getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(DepartmentModel department) {
         this.department = department;
     }
 
@@ -67,6 +69,14 @@ public class Syllabus {
 
     public void setCourses(List<CourseInSyllabus> courses) {
         this.courses = courses;
+    }
+
+    public CreditsSummation getCurriculumCreditSummation() {
+        return curriculumCreditSummation;
+    }
+
+    public void setCurriculumCreditSummation(CreditsSummation curriculumCreditSummation) {
+        this.curriculumCreditSummation = curriculumCreditSummation;
     }
     
     

@@ -2,44 +2,61 @@
  */
 package me.shafin.sustord.models;
 
+import java.util.List;
+
+
 /**
  *
  * @author SHAFIN
  */
-public class CourseInSyllabus extends CourseModel{    
-    private String offeringDept;
-    private String acceptingDept;
+public class CourseInSyllabus{
+    
+    private CourseModel courseModel;
+    
+    private  int offeringSemester;
+    private DepartmentModel offeringDept;
+    private DepartmentModel acceptingDept;
     private double hoursWeek;
-    private String prerequisite;
+    private List<CourseModel> prerequisite;
 
     public CourseInSyllabus() {
     }
 
-    
-    public CourseInSyllabus(String offeringDept, String acceptingDept, 
-            double hoursWeek, String prerequisite, String courseCode, 
-            String courseTitle, double credit, boolean isCourseTheory, 
-            String courseContent, String references) {
-        super(courseCode, courseTitle, credit, isCourseTheory, courseContent, references);
+    public CourseInSyllabus(CourseModel courseModel, 
+            int offeringSemester, DepartmentModel offeringDept, 
+            DepartmentModel acceptingDept, double hoursWeek, 
+            List<CourseModel> prerequisite) {
+        this.courseModel = courseModel;
+        this.offeringSemester = offeringSemester;
         this.offeringDept = offeringDept;
         this.acceptingDept = acceptingDept;
         this.hoursWeek = hoursWeek;
         this.prerequisite = prerequisite;
     }
 
-    public String getOfferingDept() {
+    
+
+    public CourseModel getCourseModel() {
+        return courseModel;
+    }
+
+    public void setCourseModel(CourseModel courseModel) {
+        this.courseModel = courseModel;
+    }
+
+    public DepartmentModel getOfferingDept() {
         return offeringDept;
     }
 
-    public void setOfferingDept(String offeringDept) {
+    public void setOfferingDept(DepartmentModel offeringDept) {
         this.offeringDept = offeringDept;
     }
 
-    public String getAcceptingDept() {
+    public DepartmentModel getAcceptingDept() {
         return acceptingDept;
     }
 
-    public void setAcceptingDept(String acceptingDept) {
+    public void setAcceptingDept(DepartmentModel acceptingDept) {
         this.acceptingDept = acceptingDept;
     }
 
@@ -51,12 +68,21 @@ public class CourseInSyllabus extends CourseModel{
         this.hoursWeek = hoursWeek;
     }
 
-    public String getPrerequisite() {
+    public List<CourseModel> getPrerequisite() {
         return prerequisite;
     }
 
-    public void setPrerequisite(String prerequisite) {
+    public void setPrerequisite(List<CourseModel> prerequisite) {
         this.prerequisite = prerequisite;
     }
-    
+
+    public int getOfferingSemester() {
+        return offeringSemester;
+    }
+
+    public void setOfferingSemester(int offeringSemester) {
+        this.offeringSemester = offeringSemester;
+    }
+
+   
 }

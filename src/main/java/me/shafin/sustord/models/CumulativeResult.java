@@ -8,34 +8,35 @@ package me.shafin.sustord.models;
  */
 public class CumulativeResult {
     
-    private double totalCreditsTakenSoFar;
-    private double totalCreditsCompleteSoFar;
+    private CreditsSummation soFarRegisteredCreditsSummation;
+    private CreditsSummation soFarCompletedCreditsSummation;
     
     private Grade CGPA;
 
     public CumulativeResult() {
     }
 
-    public CumulativeResult(double totalCreditsTakenSoFar, double totalCreditsCompleteSoFar, Grade CGPA) {
-        this.totalCreditsTakenSoFar = totalCreditsTakenSoFar;
-        this.totalCreditsCompleteSoFar = totalCreditsCompleteSoFar;
+    public CumulativeResult(CreditsSummation soFarRegisteredCreditsSummation, 
+            CreditsSummation soFarCompletedCreditsSummation, Grade CGPA) {
+        this.soFarRegisteredCreditsSummation = soFarRegisteredCreditsSummation;
+        this.soFarCompletedCreditsSummation = soFarCompletedCreditsSummation;
         this.CGPA = CGPA;
     }
 
-    public double getTotalCreditsTakenSoFar() {
-        return totalCreditsTakenSoFar;
+    public CreditsSummation getSoFarRegisteredCreditsSummation() {
+        return soFarRegisteredCreditsSummation;
     }
 
-    public void setTotalCreditsTakenSoFar(double totalCreditsTakenSoFar) {
-        this.totalCreditsTakenSoFar = totalCreditsTakenSoFar;
+    public void setSoFarRegisteredCreditsSummation(CreditsSummation soFarRegisteredCreditsSummation) {
+        this.soFarRegisteredCreditsSummation = soFarRegisteredCreditsSummation;
     }
 
-    public double getTotalCreditsCompleteSoFar() {
-        return totalCreditsCompleteSoFar;
+    public CreditsSummation getSoFarCompletedCreditsSummation() {
+        return soFarCompletedCreditsSummation;
     }
 
-    public void setTotalCreditsCompleteSoFar(double totalCreditsCompleteSoFar) {
-        this.totalCreditsCompleteSoFar = totalCreditsCompleteSoFar;
+    public void setSoFarCompletedCreditsSummation(CreditsSummation soFarCompletedCreditsSummation) {
+        this.soFarCompletedCreditsSummation = soFarCompletedCreditsSummation;
     }
 
     public Grade getCGPA() {
@@ -45,5 +46,6 @@ public class CumulativeResult {
     public void setCGPA(Grade CGPA) {
         this.CGPA = CGPA;
     }
-    
+
+   
 }

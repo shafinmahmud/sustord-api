@@ -9,14 +9,15 @@ package me.shafin.sustord.models;
 public class Result {
     
     private int attendedSemester;
+    private int attendedYear;
     private Grade grade;
 
     public Result() {
     }
 
-    
-    public Result(int attendedSemester, Grade grade) {
+    public Result(int attendedSemester, int attendedYear, Grade grade) {
         this.attendedSemester = attendedSemester;
+        this.attendedYear = attendedYear;
         this.grade = grade;
     }
 
@@ -34,6 +35,14 @@ public class Result {
 
     public void setGrade(Grade grade) {
         this.grade = grade;
+    }
+
+    public int getAttendedYear() {
+        return attendedYear;
+    }
+
+    public void setAttendedYear(int attendedYear) {
+        this.attendedYear = attendedYear;
     }
     
     

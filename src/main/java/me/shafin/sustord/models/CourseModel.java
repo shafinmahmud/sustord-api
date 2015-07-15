@@ -11,7 +11,7 @@ public class CourseModel {
     private String courseCode;
     private String courseTitle;
     private double credit;
-    private boolean isCourseTheory;
+    private boolean theoryCourse;
     private String courseContent;
     private String references;
 
@@ -24,7 +24,7 @@ public class CourseModel {
         this.courseCode = courseCode;
         this.courseTitle = courseTitle;
         this.credit = credit;
-        this.isCourseTheory = isCourseTheory;
+        this.theoryCourse = isCourseTheory;
         this.courseContent = courseContent;
         this.references = references;
     }
@@ -53,12 +53,12 @@ public class CourseModel {
         this.credit = credit;
     }
 
-    public boolean isIsCourseTheory() {
-        return isCourseTheory;
+    public boolean isTheoryCourse() {
+        return theoryCourse;
     }
 
-    public void setIsCourseTheory(boolean isCourseTheory) {
-        this.isCourseTheory = isCourseTheory;
+    public void setTheoryCourse(boolean theoryCourse) {
+        this.theoryCourse = theoryCourse;
     }
 
     public String getCourseContent() {

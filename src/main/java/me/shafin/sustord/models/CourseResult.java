@@ -8,25 +8,28 @@ import java.util.List;
  *
  * @author SHAFIN
  */
-public class CourseResult extends CourseInSyllabus{
+public class CourseResult{
     
+    private CourseInSyllabus courseInSyllabus;
     private List<Result> results;
     private int passedOn;
 
     public CourseResult() {
     }
 
-    public CourseResult(List<Result> results, int passedOn, 
-            String offeringDept, String acceptingDept, 
-            double hoursWeek, String prerequisite, 
-            String courseCode, String courseTitle, 
-            double credit, boolean isCourseTheory, 
-            String courseContent, String references) {
-        super(offeringDept, acceptingDept, hoursWeek,
-                prerequisite, courseCode, courseTitle, 
-                credit, isCourseTheory, courseContent, references);
+    public CourseResult(CourseInSyllabus courseInSyllabus, 
+            List<Result> results, int passedOn) {
+        this.courseInSyllabus = courseInSyllabus;
         this.results = results;
         this.passedOn = passedOn;
+    }
+
+    public CourseInSyllabus getCourseInSyllabus() {
+        return courseInSyllabus;
+    }
+
+    public void setCourseInSyllabus(CourseInSyllabus courseInSyllabus) {
+        this.courseInSyllabus = courseInSyllabus;
     }
 
     public List<Result> getResults() {
@@ -43,6 +46,5 @@ public class CourseResult extends CourseInSyllabus{
 
     public void setPassedOn(int passedOn) {
         this.passedOn = passedOn;
-    }
- 
+    }   
 }
