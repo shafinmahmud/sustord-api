@@ -2,6 +2,7 @@
  */
 package me.shafin.sustord.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import me.shafin.sustord.entities.Syllabus;
 import me.shafin.sustord.utilities.HibernateUtil;
@@ -15,7 +16,8 @@ import org.hibernate.Session;
  */
 public class SyllabusDao {
 
-    public static List<Syllabus> getSyllabusObjectsOfSemester(int studentBatchIdFk, int semester) throws Exception {
+    public static List<Syllabus> getSyllabusObjectsOfSemester(int studentBatchIdFk, int semester) throws SQLException,
+            NullPointerException{
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -27,7 +29,6 @@ public class SyllabusDao {
             query.setInteger("sem", semester);
 
             List<Syllabus> syllabusList = (List<Syllabus>) query.list();
-
             session.getTransaction().commit();
 
             if (!syllabusList.isEmpty()) {
