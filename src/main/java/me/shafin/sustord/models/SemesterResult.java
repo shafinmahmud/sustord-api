@@ -21,33 +21,27 @@ public class SemesterResult {
     private int examSemester;
     private List<CourseResult> registeredCourseResults;
 
-    private CreditsSummation totalRegisteredCreditsSummation;
-    private CreditsSummation totalCompletedCreditsSummation;
-    private Grade semesterGPA;
-
-    private CumulativeResult cumulativeResult;
+    private ResultSum semesterResult;
+    private ResultSum cumulativeResult;
 
     public SemesterResult() {
     }
 
-    public SemesterResult(Student student, DepartmentModel department,
-            Program program, String academicSession, int examSemester,
-            List<CourseResult> courseResults,
-            CreditsSummation totalRegisteredCreditsSummation,
-            CreditsSummation totalCompletedCreditsSummation,
-            Grade semesterGPA, CumulativeResult cumulativeResult) {
+    public SemesterResult(Student student, DepartmentModel department, 
+            Program program, String academicSession, int examSemester, 
+            List<CourseResult> registeredCourseResults, 
+            ResultSum semesterResult, ResultSum cumulativeResult) {
         this.student = student;
         this.department = department;
         this.program = program;
         this.academicSession = academicSession;
         this.examSemester = examSemester;
-        this.registeredCourseResults = courseResults;
-        this.totalRegisteredCreditsSummation = totalRegisteredCreditsSummation;
-        this.totalCompletedCreditsSummation = totalCompletedCreditsSummation;
-        this.semesterGPA = semesterGPA;
+        this.registeredCourseResults = registeredCourseResults;
+        this.semesterResult = semesterResult;
         this.cumulativeResult = cumulativeResult;
     }
 
+    
     public Student getStudent() {
         return student;
     }
@@ -96,36 +90,21 @@ public class SemesterResult {
         this.registeredCourseResults = registeredCourseResults;
     }
 
-    public CreditsSummation getTotalRegisteredCreditsSummation() {
-        return totalRegisteredCreditsSummation;
+    public ResultSum getSemesterResult() {
+        return semesterResult;
     }
 
-    public void setTotalRegisteredCreditsSummation(CreditsSummation totalRegisteredCreditsSummation) {
-        this.totalRegisteredCreditsSummation = totalRegisteredCreditsSummation;
+    public void setSemesterResult(ResultSum semesterResult) {
+        this.semesterResult = semesterResult;
     }
 
-    public CreditsSummation getTotalCompletedCreditsSummation() {
-        return totalCompletedCreditsSummation;
-    }
-
-    public void setTotalCompletedCreditsSummation(CreditsSummation totalCompletedCreditsSummation) {
-        this.totalCompletedCreditsSummation = totalCompletedCreditsSummation;
-    }
-
-    public Grade getSemesterGPA() {
-        return semesterGPA;
-    }
-
-    public void setSemesterGPA(Grade semesterGPA) {
-        this.semesterGPA = semesterGPA;
-    }
-
-    public CumulativeResult getCumulativeResult() {
+    public ResultSum getCumulativeResult() {
         return cumulativeResult;
     }
 
-    public void setCumulativeResult(CumulativeResult cumulativeResult) {
+    public void setCumulativeResult(ResultSum cumulativeResult) {
         this.cumulativeResult = cumulativeResult;
     }
 
+    
 }
