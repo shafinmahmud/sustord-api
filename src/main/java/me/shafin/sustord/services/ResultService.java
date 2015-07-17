@@ -8,9 +8,10 @@ import java.util.Collections;
 import java.util.List;
 import me.shafin.sustord.dao.CourseRegistrationDao;
 import me.shafin.sustord.entities.CourseRegistration;
+import me.shafin.sustord.models.CourseCount;
 import me.shafin.sustord.models.CourseInSyllabus;
 import me.shafin.sustord.models.CourseReport;
-import me.shafin.sustord.models.Credit;
+import me.shafin.sustord.models.CreditCount;
 import me.shafin.sustord.models.CurriCreditsSum;
 import me.shafin.sustord.models.CurriculumResult;
 import me.shafin.sustord.models.Grade;
@@ -91,10 +92,10 @@ public class ResultService extends StudentIdentityService {
         semesterResult.setRegisteredCourseReports(getAttendedCourseResultsOfSemester(semester));
 
         //setting ResultNuttShell currentResult
-        semesterResult.setResultThisSemester(getThisSemesterResultNutShell(semester));
+        semesterResult.setResultThisSemester(getResultNutShell(semester, ModelConstants.THIS_SEMESTER));
 
         //setting ResultNutShell cumulativeResult
-        //semesterResult.setResultCumulative(getThisSemesterResultNutShell(semester, ModelConstants.UPTO_THIS_SEMESTER));
+        semesterResult.setResultCumulative(getResultNutShell(semester, ModelConstants.UPTO_THIS_SEMESTER));
         return semesterResult;
     }
 
@@ -240,12 +241,22 @@ public class ResultService extends StudentIdentityService {
                 }
             }
         }
-        return new CurriCreditsSum(new Credit(totalTheoryCreditsCompleted,
+        return new CurriCreditsSum(new CreditCount(totalTheoryCreditsCompleted,
                 totalLabCreditsCompleted), totalTheoryHrsAttended, totalLabHrsAttended);
     }
 
-    public ResultNutShell getThisSemesterResultNutShell(int semester) throws SQLException {
+    public ResultNutShell getResultNutShell(int semester, int resultNutShellType) throws SQLException {
 
+        int registeredRegularTheoryCount = 0;
+        int registeredRegularLabCount = 0;
+        int registeredIrregularTheoryCount = 0;
+        int registeredIrregularLabCount = 0;
+        
+        int completedRegularTheoryCount = 0;
+        int completedRegularLabCount = 0;
+        int completedIrregularTheoryCount = 0;
+        int completedIrregularLabCount = 0;
+        
         double registeredRegularTheory = 0.00;
         double registeredRegularLab = 0.00;
         double registeredIrregularTheory = 0.00;
@@ -261,12 +272,34 @@ public class ResultService extends StudentIdentityService {
 
         //getting registered courses
         List<CourseRegistration> registeredCourses;
-        registeredCourses = CourseRegistrationDao
-                .getRegisteredCourseListOfSemester(studentInfo.getStudentInfoId(), semester);
-        
+        if (resultNutShellType == ModelConstants.THIS_SEMESTER) {
+            registeredCourses = CourseRegistrationDao
+                    .getRegisteredCourseListOfSemester(studentInfo.getStudentInfoId(), semester);
+        } else if(resultNutShellType == ModelConstants.UPTO_THIS_SEMESTER){
+            registeredCourses = CourseRegistrationDao
+                    .getRegisteredCourseListUpToSemester(studentInfo.getStudentInfoId(), semester);
+        } else if(resultNutShellType == ModelConstants.CUMULATIVE){
+            registeredCourses = CourseRegistrationDao
+                .getRegisteredCourseListAll(studentInfo.getStudentInfoId());
+        } else{
+            registeredCourses = null;
+        }
+
         //itereing them
         if (registeredCourses != null) {
+            List<CourseRegistration> uniqueCourseRegistrations = new ArrayList<>();
             for (CourseRegistration r : registeredCourses) {
+
+                //is the course taken before ? test it.
+                boolean courseIsTakenBefore = false;
+                for (CourseRegistration takenCourse : uniqueCourseRegistrations) {
+                    if (r.getSyllabusIdFk() == takenCourse.getSyllabusIdFk()) {
+                        courseIsTakenBefore = true;
+                    }
+                }
+                if (!courseIsTakenBefore) {
+                    uniqueCourseRegistrations.add(r);
+                }
 
                 boolean regularCourse = isCourseRegistationRegular(r);
                 boolean isCourseTheory = SyllabusService.isCourseTheory(r.getSyllabusIdFk().getCourseIdFk());
@@ -275,31 +308,49 @@ public class ResultService extends StudentIdentityService {
 
                 if (regularCourse) {  //condition for Regular Course
                     if (isCourseTheory) {
-                        registeredRegularTheory += courseCredit;
+                        if (!courseIsTakenBefore) {
+                            registeredRegularTheory += courseCredit;
+                            registeredRegularTheoryCount++;
+                        }
                         if (gradePoint > 0.00) {
                             completedRegularTheory += courseCredit;
+                            completedRegularTheoryCount++;
+                            
                             multipliedPoint += gradePoint * courseCredit;
                             regularCourseMultipliedPoint += gradePoint * courseCredit;
                         }
                     } else {
-                        registeredRegularLab += courseCredit;
+                        if (!courseIsTakenBefore) {
+                            registeredRegularLab += courseCredit;
+                            registeredRegularLabCount++;
+                        }
                         if (gradePoint > 0.00) {
                             completedRegularLab += courseCredit;
+                            completedRegularLabCount++;
+                            
                             multipliedPoint += gradePoint * courseCredit;
                             regularCourseMultipliedPoint += gradePoint * courseCredit;
                         }
                     }
                 } else { //condition for Irregular Course
                     if (isCourseTheory) {
-                        registeredIrregularTheory += courseCredit;
+                        if (!courseIsTakenBefore) {
+                            registeredIrregularTheory += courseCredit;
+                            registeredIrregularTheoryCount++;
+                        }
                         if (gradePoint > 0.00) {
                             completedIrregularTheory += courseCredit;
+                            completedIrregularTheoryCount++;                       
                             multipliedPoint += gradePoint * courseCredit;
                         }
                     } else {
-                        registeredIrregularLab += courseCredit;
+                        if (!courseIsTakenBefore) {
+                            registeredIrregularLab += courseCredit;
+                            registeredIrregularLabCount++;
+                        }
                         if (gradePoint > 0.00) {
                             completedIrregularLab += courseCredit;
+                            completedIrregularLabCount++;
                             multipliedPoint += gradePoint * courseCredit;
                         }
                     }
@@ -307,14 +358,26 @@ public class ResultService extends StudentIdentityService {
 
             }
         }
-        //building ResultNutShell
-        RegCreditsSum registeredCredit = new RegCreditsSum(new Credit(registeredRegularTheory, registeredRegularLab),
-                new Credit(registeredIrregularTheory, registeredIrregularLab));
-        RegCreditsSum completedCredit = new RegCreditsSum(new Credit(completedRegularTheory, completedRegularLab),
-                new Credit(completedIrregularTheory, completedIrregularLab));
+        //building ResultNutShell      
+        RegCreditsSum registeredCourse = new RegCreditsSum();
+        //setting for registered coures
+        registeredCourse.setRegularCreditCount(new CreditCount(registeredRegularTheory, registeredRegularLab));
+        registeredCourse.setIrregularCreditCount(new CreditCount(registeredIrregularTheory, registeredIrregularLab));
+        
+        registeredCourse.setRegularCourseCount(new CourseCount(registeredRegularTheoryCount, registeredRegularLabCount));
+        registeredCourse.setIrregularCourseCount(new CourseCount(registeredIrregularTheoryCount, registeredIrregularLabCount));
+        
+        RegCreditsSum completedCourse = new RegCreditsSum();
+        //setting for completed courses    
+        completedCourse.setRegularCreditCount(new CreditCount(completedRegularTheory, completedRegularLab));
+        completedCourse.setIrregularCreditCount(new CreditCount(completedIrregularTheory, completedIrregularLab));
+        
+        completedCourse.setRegularCourseCount(new CourseCount(completedRegularTheoryCount, completedRegularLabCount));
+        completedCourse.setIrregularCourseCount(new CourseCount(completedIrregularTheoryCount, completedIrregularLabCount));
+        
 
         Grade allCourseGPA;
-        double totalCompletedCredit = completedCredit.getAllCourseCredits().getTotal();
+        double totalCompletedCredit = completedCourse.getAllCreditCount().getTotal();
         if (totalCompletedCredit > 0) {
             allCourseGPA = new Grade(multipliedPoint / totalCompletedCredit);
         } else {
@@ -322,17 +385,17 @@ public class ResultService extends StudentIdentityService {
         }
 
         Grade regularCourseGPA;
-        double totalRegularCompletedCredit = completedCredit.getRegularCourseCredit().getTotal();
+        double totalRegularCompletedCredit = completedCourse.getRegularCreditCount().getTotal();
         if (totalRegularCompletedCredit > 0) {
             regularCourseGPA = new Grade(regularCourseMultipliedPoint / totalCompletedCredit);
         } else {
             regularCourseGPA = new Grade("N/A");
         }
 
-        return new ResultNutShell(registeredCredit, completedCredit, allCourseGPA, regularCourseGPA);
+        return new ResultNutShell(registeredCourse, completedCourse, allCourseGPA, regularCourseGPA);
     }
 
-    
+
     public static boolean isCourseRegistationRegular(CourseRegistration reg) {
         return reg.getAttendSemester() == reg.getSyllabusIdFk().getSemester();
     }
