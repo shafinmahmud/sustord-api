@@ -4,7 +4,7 @@ package me.shafin.sustord.services;
 
 import java.sql.SQLException;
 import me.shafin.sustord.models.AcademicProfile;
-import me.shafin.sustord.models.Department;
+import me.shafin.sustord.models.DepartmentModel;
 import me.shafin.sustord.models.Program;
 import org.hibernate.HibernateException;
 
@@ -27,11 +27,11 @@ public class AcademicInfoService extends StudentIdentityService {
         return studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDeptIdFk().getDeptName();
     }
     
-    public Department getDepartment() {
+    public DepartmentModel getDepartment() {
         String deptCode = this.studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDeptIdFk().getDeptCode();
         String deptName = this.getStudentDepartmentName();
         String school = this.getStudentSchoolName();
-        return new Department(deptCode, deptName, school);
+        return new DepartmentModel(deptCode, deptName, school);
     }
     
     public String getStudentDegreeType() {
