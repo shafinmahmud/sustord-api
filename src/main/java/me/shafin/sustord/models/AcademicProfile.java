@@ -9,18 +9,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author SHAFIN
  */
 @XmlRootElement
-public class AcademicProfile extends Student {
+public class AcademicProfile {
 
-    private DepartmentModel department;
-    private Program program;
-    private String academicSession;
+    private StudentIntroHeader basicInfo;
+    
     private int totalAcademicSemester;
     private int maxAcademicSemester;
+    
     private int currentAcademicSemester;
-    private int totalCourses;
-    private int coursesCompleted;
-    private double totalCredits;
-    private double creditsCompleted;
+    
     private double currentCgpa;
 
     public AcademicProfile() {
@@ -31,11 +28,11 @@ public class AcademicProfile extends Student {
         super(registrationNo, name);
     }
 
-    public AcademicProfile(DepartmentModel department, Program program, 
-            String academicSession, int totalAcademicSemester, 
-            int maxAcademicSemester, int currentAcademicSemester, 
-            int totalCourses, int coursesCompleted, double totalCredits, 
-            double creditsCompleted, double currentCgpa, 
+    public AcademicProfile(DepartmentModel department, Program program,
+            String academicSession, int totalAcademicSemester,
+            int maxAcademicSemester, int currentAcademicSemester,
+            int totalCourses, int coursesCompleted, double totalCredits,
+            double creditsCompleted, double currentCgpa,
             String registrationNo, String name) {
         super(registrationNo, name);
         this.department = department;
@@ -139,5 +136,4 @@ public class AcademicProfile extends Student {
         this.currentCgpa = currentCgpa;
     }
 
-    
 }
