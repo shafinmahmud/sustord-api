@@ -12,14 +12,19 @@ import me.shafin.sustord.helpers.ReportHelper;
 import me.shafin.sustord.helpers.SyllabusHelper;
 import me.shafin.sustord.models.CourseCount;
 import me.shafin.sustord.models.CourseInSyllabus;
+import me.shafin.sustord.models.CourseModel;
 import me.shafin.sustord.models.CourseReport;
 import me.shafin.sustord.models.CreditCount;
+import me.shafin.sustord.models.CumulativeResult;
+import me.shafin.sustord.models.CurriCreditsSum;
 import me.shafin.sustord.models.Grade;
 import me.shafin.sustord.models.RegCreditsSum;
 import me.shafin.sustord.models.Report;
 import me.shafin.sustord.models.ResultNutShell;
 import me.shafin.sustord.models.SemesterResult;
+import me.shafin.sustord.models.StudentIntroHeader;
 import me.shafin.sustord.utilities.ModelConstants;
+import org.glassfish.jersey.server.model.internal.ModelHelper;
 import org.hibernate.HibernateException;
 
 /**
@@ -50,6 +55,24 @@ public class SemesterResultService extends StudentIdentityService {
         //setting ResultNutShell cumulativeResult
         semesterResult.setResultUptoThisSemester(getResultNutShell(semester, ModelConstants.UPTO_THIS_SEMESTER));
         return semesterResult;
+    }
+
+    public CumulativeResult getCumulativeResult() throws HibernateException, SQLException {
+
+        CumulativeResult cumulativeResult = new CumulativeResult();
+        //setting StudentIntroHeader studentBasicInfo
+        cumulativeResult.setStudentBasicInfo(BasicInfoHelper.getStudentIntroHeader(studentInfo));
+        
+        //setting CurriCreditsSum offeredCourse
+        List<CourseInSyllabus> allOfferedCourses = SyllabusService
+                .getCourseInSyllabusAll(this.studentInfo.getStudentBatchIdFk(), false);
+        cumulativeResult.setOfferedCourse(SyllabusService
+                .getCurriCreditSumForOfferedCourses(allOfferedCourses));
+        
+        //setting ResultNutShell resultSummary;
+        cumulativeResult.setResultSummary(getResultNutShell(-1, ModelConstants.CUMULATIVE));
+        
+        return cumulativeResult;
     }
 
     public List<CourseReport> getAttendedCourseResultsOfSemester(int semester) throws SQLException {
@@ -192,7 +215,6 @@ public class SemesterResultService extends StudentIdentityService {
                         }
                     }
                 }
-
             }
         }
         //building ResultNutShell      

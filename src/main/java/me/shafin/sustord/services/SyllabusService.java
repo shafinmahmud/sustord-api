@@ -37,6 +37,7 @@ public class SyllabusService {
         syllabus.setDepartment(getDepartmentOfaBatch(batch));
         syllabus.setProgram(getProgramOfaBatch(batch));
         syllabus.setSemester(semester);
+
         List<CourseInSyllabus> courseList = getCourseInSyllabusOfSemester(batch, semester, withCourseContent);
         syllabus.setCourses(courseList);
         syllabus.setOfferingCreditSum(getCurriCreditSumForOfferedCourses(courseList));
@@ -44,25 +45,8 @@ public class SyllabusService {
         return syllabus;
     }
 
-    public static CourseModel getCourse(String courseCode) throws SQLException {
-        courseCode = getCourseCodeFormatted(courseCode);
-        Course courseEntity = CourseDao.getCourseFromCourseCode(courseCode);
-        CourseModel course = new CourseModel();
-        course.setCourseCode(courseEntity.getCourseCode());
-        course.setCourseTitle(courseEntity.getTitle());
-        course.setCredit(courseEntity.getCredit());
-        course.setTheoryCourse(SyllabusHelper.isCourseTheory(courseEntity));
-
-        return course;
-    }
-
-    public static CourseModel getCourseWithContent(String courseCode) throws SQLException {
-        courseCode = getCourseCodeFormatted(courseCode);
-        Course courseEntity = CourseDao.getCourseFromCourseCode(courseCode);
-        CourseModel course = getCourse(courseCode);
-        course.setCourseContent(courseEntity.getContent());
-        course.setReferences(courseEntity.getReferences());
-        return course;
+    public static CourseModel getCourseDetails(String courseCode) throws SQLException{
+        return SyllabusHelper.getCourseModelFromCourseCode(courseCode, true);
     }
 
     public static List<CourseInSyllabus> getCourseInSyllabusOfSemester(StudentBatch batch, int semester,
@@ -72,7 +56,21 @@ public class SyllabusService {
         List<Syllabus> courseList = SyllabusDao.getSyllabusObjectsOfSemester(batchId, semester);
 
         for (Syllabus s : courseList) {
-            syllabusCourseList.add(SyllabusHelper.convertSyllabusEntityToCourseInSyllabus(s, withCourseContent));
+            syllabusCourseList.add(SyllabusHelper
+                    .convertSyllabusEntityToCourseInSyllabus(s, withCourseContent));
+        }
+        return syllabusCourseList;
+    }
+
+    public static List<CourseInSyllabus> getCourseInSyllabusAll(StudentBatch batch,
+            boolean withCourseContent) throws SQLException {
+        int batchId = batch.getStudentBatchId();
+        List<CourseInSyllabus> syllabusCourseList = new ArrayList<>();
+        List<Syllabus> courseList = SyllabusDao.getSyllabusObjectsAll(batchId);
+
+        for (Syllabus s : courseList) {
+            syllabusCourseList.add(SyllabusHelper
+                    .convertSyllabusEntityToCourseInSyllabus(s, withCourseContent));
         }
         return syllabusCourseList;
     }
@@ -83,18 +81,8 @@ public class SyllabusService {
         int courseId = CourseDao.getCourseFromCourseCode(courseCode).getCourseId();
         return SyllabusDao.getSyllabusFromCourseId(batchId, courseId).getSyllabusId();
     }
-
-    private static String getCourseCodeFormatted(String courseCode) {
-        courseCode = courseCode.toUpperCase();
-        courseCode = courseCode.trim();
-        if (!courseCode.contains(" ")) {
-            String temp1 = courseCode.substring(0, 3);
-            String temp2 = courseCode.substring(3);
-            String temp = temp1 + " " + temp2;
-            return temp.trim();
-        }
-        return courseCode;
-    }
+    
+    
 
     private static DepartmentModel getDepartmentOfaBatch(StudentBatch batch) throws SQLException {
         DepartmentModel department = new DepartmentModel();
@@ -116,10 +104,10 @@ public class SyllabusService {
 
         int theoryCourseCount = 0;
         int labCourseCount = 0;
-        
+
         double theoryCreditCount = 0.00;
         double labCreditCount = 0.00;
-        
+
         double totalTheoryHrsWeek = 0.00;
         double totalLabHoursWeek = 0.00;
 
@@ -135,7 +123,7 @@ public class SyllabusService {
                 totalLabHoursWeek += c.getHoursWeek();
             }
         }
-        
+
         CreditCount creditCount = new CreditCount(theoryCreditCount, labCreditCount);
         CourseCount courseCount = new CourseCount(theoryCourseCount, labCourseCount);
         return new CurriCreditsSum(courseCount, creditCount, totalTheoryHrsWeek, totalLabHoursWeek);

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import me.shafin.sustord.models.AcademicProfile;
 import me.shafin.sustord.models.DepartmentModel;
 import me.shafin.sustord.models.Program;
+import me.shafin.sustord.models.Student;
+import me.shafin.sustord.models.StudentIntroHeader;
 import org.hibernate.HibernateException;
 
 /**
@@ -90,19 +92,16 @@ public class AcademicInfoService extends StudentIdentityService {
     }
     
     public AcademicProfile getAllAcademicInfo() {
-        AcademicProfile academic = new AcademicProfile(this.studentInfo.getRegistrationNo(),
+        AcademicProfile academic = new AcademicProfile();
+        Student student = new Student(this.studentInfo.getRegistrationNo(), 
                 this.studentInfo.getPersonalInfo().getName());
-        academic.setDepartment(this.getDepartment());
-        academic.setProgram(this.getProgram());
+        StudentIntroHeader studentBasic = new StudentIntroHeader(student, this.getDepartment(), 
+                this.getProgram(), getStudentAcademicSession());
+        academic.setBasicInfo(studentBasic);
+
         academic.setMaxAcademicSemester(this.getMaxAcademicSemester());
         academic.setTotalAcademicSemester(this.getTotalAcadmicSemester());
         academic.setCurrentAcademicSemester(this.getCurrentAcademicSemester());
-        academic.setAcademicSession(this.getStudentAcademicSession());
-        academic.setTotalCourses(this.getTotalCourses());
-        academic.setCoursesCompleted(this.getCoursesCompleted());
-        academic.setTotalCredits(this.getTotalCredits());
-        academic.setCreditsCompleted(this.getCreditsCompleted());
-        academic.setCurrentCgpa(this.getCurrentCgpa());
         
         return academic;
     }
