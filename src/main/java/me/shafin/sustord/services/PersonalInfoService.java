@@ -6,25 +6,25 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.shafin.sustord.dao.PersonalInfoDao;
+import me.shafin.sustord.models.PersonalInformation;
 import me.shafin.sustord.models.PersonalProfile;
+import me.shafin.sustord.models.Student;
 import org.hibernate.HibernateException;
 
 /**
  *
  * @author SHAFIN
  */
-public class PersonalInfoService extends StudentIdentityService{
+public class PersonalInfoService extends StudentIdentityService {
 
     private static final String NULL_RESPONSE = "null";
     private static final String ERROR_RESPONSE = "500 Server Error";
 
     /* Constructor thats is private and get accesses through static helper method  */
-    public PersonalInfoService(String registrationNo) throws HibernateException, 
-            SQLException, NullPointerException{
+    public PersonalInfoService(String registrationNo) throws HibernateException,
+            SQLException, NullPointerException {
         super(StudentIdentityService.forSingletonIdentityService(registrationNo));
     }
-
-    
 
     /* Personal Information  */
     public String getStudentName() {
@@ -222,11 +222,13 @@ public class PersonalInfoService extends StudentIdentityService{
             return ERROR_RESPONSE;
         }
     }
-    
-    public PersonalProfile getAllPersonalInfo(){
-        PersonalProfile personal = new PersonalProfile();
-        personal.setRegistrationNo(this.studentInfo.getRegistrationNo());
-        personal.setName(this.getStudentName());
+
+    public PersonalProfile getPersonalInfo() {
+        Student student = new Student();
+        student.setRegistrationNo(this.studentInfo.getRegistrationNo());
+        student.setName(this.getStudentName());
+
+        PersonalInformation personal = new PersonalInformation();
         personal.setFathersName(this.getFatherName());
         personal.setMothersName(this.getMotherName());
         personal.setEmail(this.getEmail());
@@ -240,8 +242,8 @@ public class PersonalInfoService extends StudentIdentityService{
         personal.setReligion(this.getReligion());
         personal.setMaritalStatus(this.getMaritalStatus());
         personal.setPhotoUrl(this.getStudentPhotoUrl());
-        
-        return personal;
+
+        return new PersonalProfile(student, personal);
     }
 
 }
