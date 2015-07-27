@@ -186,7 +186,7 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.Course[ courseId=" + courseId + " ]";
+        return "me.shafin.sustord.entities.Course[ courseId=" + courseId + " ]";
     }
     
 }

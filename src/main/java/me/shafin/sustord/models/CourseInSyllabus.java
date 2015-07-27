@@ -13,7 +13,7 @@ public class CourseInSyllabus{
     
     private CourseModel courseModel;
     
-    private  int offeringSemester;
+    private int offeringSemester;
     private DepartmentModel offeringDept;
     private DepartmentModel acceptingDept;
     private double hoursWeek;

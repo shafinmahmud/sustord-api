@@ -150,7 +150,7 @@ public class AdminDashboardCourseRegistration implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.AdminDashboardCourseRegistration[ adminDashboardCourseRegistrationId=" + adminDashboardCourseRegistrationId + " ]";
+        return "me.shafin.sustord.entities.AdminDashboardCourseRegistration[ adminDashboardCourseRegistrationId=" + adminDashboardCourseRegistrationId + " ]";
     }
     
 }

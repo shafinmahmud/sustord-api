@@ -74,7 +74,7 @@ public class Syllabus implements Serializable {
     private Collection<Prerequisite> prerequisiteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "syllabusIdFk")
     private Collection<CourseRegistration> courseRegistrationCollection;
-    @OneToMany(mappedBy = "syllabusIdFk")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "syllabusIdFk")
     private Collection<ClassRoutine> classRoutineCollection;
 
     public Syllabus() {
@@ -215,7 +215,7 @@ public class Syllabus implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.Syllabus[ syllabusId=" + syllabusId + " ]";
+        return "me.shafin.sustord.entities.Syllabus[ syllabusId=" + syllabusId + " ]";
     }
     
 }

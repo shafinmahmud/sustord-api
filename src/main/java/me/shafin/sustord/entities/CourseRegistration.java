@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CourseRegistration.findByAttendSemester", query = "SELECT c FROM CourseRegistration c WHERE c.attendSemester = :attendSemester"),
     @NamedQuery(name = "CourseRegistration.findByApproval", query = "SELECT c FROM CourseRegistration c WHERE c.approval = :approval"),
     @NamedQuery(name = "CourseRegistration.findByGrade", query = "SELECT c FROM CourseRegistration c WHERE c.grade = :grade")})
-public class CourseRegistration implements Serializable {
+public class CourseRegistration implements Serializable, Comparable<CourseRegistration> {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,7 +154,12 @@ public class CourseRegistration implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.CourseRegistration[ courseRegistrationId=" + courseRegistrationId + " ]";
+        return "me.shafin.sustord.entities.CourseRegistration[ courseRegistrationId=" + courseRegistrationId + " ]";
     }
-    
+
+    @Override
+    public int compareTo(CourseRegistration o) {
+        return (attendSemester - o.attendSemester);
+    }
+
 }

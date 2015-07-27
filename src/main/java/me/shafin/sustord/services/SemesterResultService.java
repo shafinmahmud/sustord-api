@@ -12,19 +12,15 @@ import me.shafin.sustord.helpers.ReportHelper;
 import me.shafin.sustord.helpers.SyllabusHelper;
 import me.shafin.sustord.models.CourseCount;
 import me.shafin.sustord.models.CourseInSyllabus;
-import me.shafin.sustord.models.CourseModel;
 import me.shafin.sustord.models.CourseReport;
 import me.shafin.sustord.models.CreditCount;
 import me.shafin.sustord.models.CumulativeResult;
-import me.shafin.sustord.models.CurriCreditsSum;
 import me.shafin.sustord.models.Grade;
 import me.shafin.sustord.models.RegCreditsSum;
 import me.shafin.sustord.models.Report;
 import me.shafin.sustord.models.ResultNutShell;
 import me.shafin.sustord.models.SemesterResult;
-import me.shafin.sustord.models.StudentIntroHeader;
 import me.shafin.sustord.utilities.ModelConstants;
-import org.glassfish.jersey.server.model.internal.ModelHelper;
 import org.hibernate.HibernateException;
 
 /**
@@ -42,9 +38,12 @@ public class SemesterResultService extends StudentIdentityService {
     public SemesterResult getSemesterResult(int semester) throws HibernateException,
             SQLException, NullPointerException {
         SemesterResult semesterResult = new SemesterResult();
-        //setting StudentInfoHeader
-        semesterResult.setStudentBasicInfo(BasicInfoHelper.getStudentIntroHeader(studentInfo));
-        semesterResult.setExamSemester(semester); //setting curriculmSemester
+        //setting Student
+        semesterResult.setStudent(BasicInfoHelper.getStudent(studentInfo));
+        //setting BatchInformation
+        semesterResult.setBatchInformation(BasicInfoHelper.getBatchInformation(studentInfo));
+        //setting curriculmSemester
+        semesterResult.setExamSemester(semester);
 
         //setting registeredCourseResults <CourseResult>
         semesterResult.setRegisteredCourseReports(getAttendedCourseResultsOfSemester(semester));
@@ -60,18 +59,20 @@ public class SemesterResultService extends StudentIdentityService {
     public CumulativeResult getCumulativeResult() throws HibernateException, SQLException {
 
         CumulativeResult cumulativeResult = new CumulativeResult();
-        //setting StudentIntroHeader studentBasicInfo
-        cumulativeResult.setStudentBasicInfo(BasicInfoHelper.getStudentIntroHeader(studentInfo));
-        
+        //setting Student
+        cumulativeResult.setStudent(BasicInfoHelper.getStudent(studentInfo));
+        //setting BatchInformation
+        cumulativeResult.setBatchInformation(BasicInfoHelper.getBatchInformation(studentInfo));
+
         //setting CurriCreditsSum offeredCourse
         List<CourseInSyllabus> allOfferedCourses = SyllabusService
                 .getCourseInSyllabusAll(this.studentInfo.getStudentBatchIdFk(), false);
         cumulativeResult.setOfferedCourse(SyllabusService
                 .getCurriCreditSumForOfferedCourses(allOfferedCourses));
-        
+
         //setting ResultNutShell resultSummary;
         cumulativeResult.setResultSummary(getResultNutShell(-1, ModelConstants.CUMULATIVE));
-        
+
         return cumulativeResult;
     }
 
@@ -145,76 +146,67 @@ public class SemesterResultService extends StudentIdentityService {
             registeredCourses = null;
         }
 
+        if (registeredCourses == null) {
+            return new ResultNutShell();
+        }
+        registeredCourses = ReportHelper.getUniqueRegistrationsWithLastAttend(registeredCourses);
         //itereing them
-        if (registeredCourses != null) {
-            List<CourseRegistration> uniqueCourseRegistrations = new ArrayList<>();
-            for (CourseRegistration r : registeredCourses) {
 
-                //is the course taken before ? test it.
-                boolean courseIsTakenBefore = false;
-                for (CourseRegistration takenCourse : uniqueCourseRegistrations) {
-                    if (r.getSyllabusIdFk() == takenCourse.getSyllabusIdFk()) {
-                        courseIsTakenBefore = true;
+        for (CourseRegistration r : registeredCourses) {
+            boolean regularCourse = ReportHelper.isCourseRegistationRegular(r);
+            boolean isCourseTheory = SyllabusHelper.isCourseTheory(r.getSyllabusIdFk().getCourseIdFk());
+            double courseCredit = r.getSyllabusIdFk().getCourseIdFk().getCredit();
+            double gradePoint = new Grade(r.getGrade()).getGradePoint();
+
+            if (regularCourse) {  //condition for Regular Course
+                if (isCourseTheory) {
+
+                    registeredRegularTheory += courseCredit;
+                    registeredRegularTheoryCount++;
+
+                    if (gradePoint > 0.00) {
+                        completedRegularTheory += courseCredit;
+                        completedRegularTheoryCount++;
+
+                        multipliedPoint += gradePoint * courseCredit;
+                        regularCourseMultipliedPoint += gradePoint * courseCredit;
+                    }
+                } else {
+
+                    registeredRegularLab += courseCredit;
+                    registeredRegularLabCount++;
+
+                    if (gradePoint > 0.00) {
+                        completedRegularLab += courseCredit;
+                        completedRegularLabCount++;
+
+                        multipliedPoint += gradePoint * courseCredit;
+                        regularCourseMultipliedPoint += gradePoint * courseCredit;
                     }
                 }
-                if (!courseIsTakenBefore) {
-                    uniqueCourseRegistrations.add(r);
-                }
+            } else { //condition for Irregular Course
+                if (isCourseTheory) {
 
-                boolean regularCourse = ReportHelper.isCourseRegistationRegular(r);
-                boolean isCourseTheory = SyllabusHelper.isCourseTheory(r.getSyllabusIdFk().getCourseIdFk());
-                double courseCredit = r.getSyllabusIdFk().getCourseIdFk().getCredit();
-                double gradePoint = new Grade(r.getGrade()).getGradePoint();
+                    registeredIrregularTheory += courseCredit;
+                    registeredIrregularTheoryCount++;
 
-                if (regularCourse) {  //condition for Regular Course
-                    if (isCourseTheory) {
-                        if (!courseIsTakenBefore) {
-                            registeredRegularTheory += courseCredit;
-                            registeredRegularTheoryCount++;
-                        }
-                        if (gradePoint > 0.00) {
-                            completedRegularTheory += courseCredit;
-                            completedRegularTheoryCount++;
-
-                            multipliedPoint += gradePoint * courseCredit;
-                            regularCourseMultipliedPoint += gradePoint * courseCredit;
-                        }
-                    } else {
-                        if (!courseIsTakenBefore) {
-                            registeredRegularLab += courseCredit;
-                            registeredRegularLabCount++;
-                        }
-                        if (gradePoint > 0.00) {
-                            completedRegularLab += courseCredit;
-                            completedRegularLabCount++;
-
-                            multipliedPoint += gradePoint * courseCredit;
-                            regularCourseMultipliedPoint += gradePoint * courseCredit;
-                        }
+                    if (gradePoint > 0.00) {
+                        completedIrregularTheory += courseCredit;
+                        completedIrregularTheoryCount++;
+                        multipliedPoint += gradePoint * courseCredit;
                     }
-                } else { //condition for Irregular Course
-                    if (isCourseTheory) {
-                        if (!courseIsTakenBefore) {
-                            registeredIrregularTheory += courseCredit;
-                            registeredIrregularTheoryCount++;
-                        }
-                        if (gradePoint > 0.00) {
-                            completedIrregularTheory += courseCredit;
-                            completedIrregularTheoryCount++;
-                            multipliedPoint += gradePoint * courseCredit;
-                        }
-                    } else {
-                        if (!courseIsTakenBefore) {
-                            registeredIrregularLab += courseCredit;
-                            registeredIrregularLabCount++;
-                        }
-                        if (gradePoint > 0.00) {
-                            completedIrregularLab += courseCredit;
-                            completedIrregularLabCount++;
-                            multipliedPoint += gradePoint * courseCredit;
-                        }
+                } else {
+
+                    registeredIrregularLab += courseCredit;
+                    registeredIrregularLabCount++;
+
+                    if (gradePoint > 0.00) {
+                        completedIrregularLab += courseCredit;
+                        completedIrregularLabCount++;
+                        multipliedPoint += gradePoint * courseCredit;
                     }
                 }
+
             }
         }
         //building ResultNutShell      

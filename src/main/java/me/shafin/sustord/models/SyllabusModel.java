@@ -3,11 +3,13 @@
 package me.shafin.sustord.models;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author SHAFIN
  */
+@XmlRootElement
 public class SyllabusModel {
     
     private DepartmentModel department;
@@ -15,20 +17,20 @@ public class SyllabusModel {
     private String academicSession;
     private int semester;
     private List<CourseInSyllabus> courses;
-    private CreditsSummation curriculumCreditSummation;
+    private CurriCreditsSum offeringCreditSum;
 
     public SyllabusModel() {
     }
 
     public SyllabusModel(DepartmentModel department, Program program, 
             String academicSession, int semester, List<CourseInSyllabus> courses, 
-            CreditsSummation creditsSummation) {
+            CurriCreditsSum creditsSummation) {
         this.department = department;
         this.program = program;
         this.academicSession = academicSession;
         this.semester = semester;
         this.courses = courses;
-        this.curriculumCreditSummation = creditsSummation;
+        this.offeringCreditSum = creditsSummation;
     }
 
     public DepartmentModel getDepartment() {
@@ -71,12 +73,12 @@ public class SyllabusModel {
         this.courses = courses;
     }
 
-    public CreditsSummation getCurriculumCreditSummation() {
-        return curriculumCreditSummation;
+    public CurriCreditsSum getOfferingCreditSum() {
+        return offeringCreditSum;
     }
 
-    public void setCurriculumCreditSummation(CreditsSummation curriculumCreditSummation) {
-        this.curriculumCreditSummation = curriculumCreditSummation;
+    public void setOfferingCreditSum(CurriCreditsSum offeringCreditSum) {
+        this.offeringCreditSum = offeringCreditSum;
     }
     
     

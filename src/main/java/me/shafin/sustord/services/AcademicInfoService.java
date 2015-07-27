@@ -3,11 +3,13 @@
 package me.shafin.sustord.services;
 
 import java.sql.SQLException;
+import me.shafin.sustord.dao.CourseRegistrationDao;
+import me.shafin.sustord.helpers.BasicInfoHelper;
 import me.shafin.sustord.models.AcademicProfile;
 import me.shafin.sustord.models.DepartmentModel;
 import me.shafin.sustord.models.Program;
-import me.shafin.sustord.models.Student;
-import me.shafin.sustord.models.StudentIntroHeader;
+import me.shafin.sustord.models.ResultNutShell;
+import me.shafin.sustord.utilities.ModelConstants;
 import org.hibernate.HibernateException;
 
 /**
@@ -16,33 +18,40 @@ import org.hibernate.HibernateException;
  */
 public class AcademicInfoService extends StudentIdentityService {
     
-    public AcademicInfoService(String registrationNo) throws HibernateException, NullPointerException, SQLException {
+    public AcademicInfoService(String registrationNo) throws HibernateException, 
+            NullPointerException, SQLException {
         super(StudentIdentityService.forSingletonIdentityService(registrationNo));
     }
 
     /* Academic Information  */
     public String getStudentSchoolName() {
-        return studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDeptIdFk().getSchoolIdFk().getSchoolName();
+        return studentInfo.getStudentBatchIdFk()
+                .getDegreeOfferedIdFk().getDeptIdFk()
+                .getSchoolIdFk().getSchoolName();
     }
     
     public String getStudentDepartmentName() {
-        return studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDeptIdFk().getDeptName();
+        return studentInfo.getStudentBatchIdFk()
+                .getDegreeOfferedIdFk().getDeptIdFk().getDeptName();
     }
     
     public DepartmentModel getDepartment() {
-        String deptCode = this.studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDeptIdFk().getDeptCode();
+        String deptCode = this.studentInfo.getStudentBatchIdFk()
+                                          .getDegreeOfferedIdFk().getDeptIdFk().getDeptCode();
         String deptName = this.getStudentDepartmentName();
         String school = this.getStudentSchoolName();
         return new DepartmentModel(deptCode, deptName, school);
     }
     
     public String getStudentDegreeType() {
-        String degreeType = studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDegreeIdFk().getDegreeTypeName();
+        String degreeType = studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk()
+                                                             .getDegreeIdFk().getDegreeTypeName();
         return degreeType;
     }
     
     public String getStudentDegreeCategory() {
-        String degreeCategory = studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDegreeIdFk().getDegreeCategory();
+        String degreeCategory = studentInfo.getStudentBatchIdFk()
+                                           .getDegreeOfferedIdFk().getDegreeIdFk().getDegreeCategory();
         return degreeCategory;
     }
     
@@ -60,15 +69,16 @@ public class AcademicInfoService extends StudentIdentityService {
     }
     
     public int getTotalAcadmicSemester() {
-        return studentInfo.getStudentBatchIdFk().getDegreeOfferedIdFk().getDegreeIdFk().getTotalSemester();
+        return studentInfo.getStudentBatchIdFk()
+                .getDegreeOfferedIdFk().getDegreeIdFk().getTotalSemester();
     }
     
     public int getMaxAcademicSemester() {
         return studentInfo.getStudentBatchIdFk().getMaxSemester();
     }
     
-    public int getCurrentAcademicSemester() {
-        return 7; // need to call another service class to get computed this value;
+    public int getCurrentAcademicSemester() throws SQLException {
+        return CourseRegistrationDao.getMaxRegistrationSemester(this.studentInfo);
     }
     
     public int getTotalCourses() {
@@ -91,17 +101,17 @@ public class AcademicInfoService extends StudentIdentityService {
         return 3.60;// attention
     }
     
-    public AcademicProfile getAllAcademicInfo() {
+    public AcademicProfile getAcademicProfile() throws HibernateException, SQLException {
         AcademicProfile academic = new AcademicProfile();
-        Student student = new Student(this.studentInfo.getRegistrationNo(), 
-                this.studentInfo.getPersonalInfo().getName());
-        StudentIntroHeader studentBasic = new StudentIntroHeader(student, this.getDepartment(), 
-                this.getProgram(), getStudentAcademicSession());
-        academic.setBasicInfo(studentBasic);
-
-        academic.setMaxAcademicSemester(this.getMaxAcademicSemester());
-        academic.setTotalAcademicSemester(this.getTotalAcadmicSemester());
-        academic.setCurrentAcademicSemester(this.getCurrentAcademicSemester());
+        
+        academic.setStudent(BasicInfoHelper.getStudent(this.studentInfo));
+        academic.setBatchInformation(BasicInfoHelper.getBatchInformation(this.studentInfo));
+        
+        academic.setCurrentAcademicSemester(getCurrentAcademicSemester());
+        
+        SemesterResultService resultService = new SemesterResultService(this.studentInfo.getRegistrationNo());
+        ResultNutShell nutShell = resultService.getResultNutShell(0, ModelConstants.CUMULATIVE);
+        academic.setAcademicReport(nutShell);
         
         return academic;
     }

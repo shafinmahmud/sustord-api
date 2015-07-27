@@ -162,7 +162,7 @@ public class StudentInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.StudentInfo[ studentInfoId=" + studentInfoId + " ]";
+        return "me.shafin.sustord.entities.StudentInfo[ studentInfoId=" + studentInfoId + " ]";
     }
     
 }

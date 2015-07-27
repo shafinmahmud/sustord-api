@@ -140,7 +140,7 @@ public class TimeSlot implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.TimeSlot[ timeSlotId=" + timeSlotId + " ]";
+        return "me.shafin.sustord.entities.TimeSlot[ timeSlotId=" + timeSlotId + " ]";
     }
     
 }

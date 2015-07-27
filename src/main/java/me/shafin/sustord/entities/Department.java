@@ -162,7 +162,7 @@ public class Department implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.Department[ deptId=" + deptId + " ]";
+        return "me.shafin.sustord.entities.Department[ deptId=" + deptId + " ]";
     }
     
 }

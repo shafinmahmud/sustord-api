@@ -37,7 +37,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "StudentBatch.findAll", query = "SELECT s FROM StudentBatch s"),
     @NamedQuery(name = "StudentBatch.findByStudentBatchId", query = "SELECT s FROM StudentBatch s WHERE s.studentBatchId = :studentBatchId"),
     @NamedQuery(name = "StudentBatch.findBySession", query = "SELECT s FROM StudentBatch s WHERE s.session = :session"),
-    @NamedQuery(name = "StudentBatch.findByMaxSemester", query = "SELECT s FROM StudentBatch s WHERE s.maxSemester = :maxSemester")})
+    @NamedQuery(name = "StudentBatch.findByMaxSemester", query = "SELECT s FROM StudentBatch s WHERE s.maxSemester = :maxSemester"),
+    @NamedQuery(name = "StudentBatch.findByBatchTag", query = "SELECT s FROM StudentBatch s WHERE s.batchTag = :batchTag")})
 public class StudentBatch implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,6 +53,9 @@ public class StudentBatch implements Serializable {
     private String session;
     @Column(name = "max_semester")
     private Integer maxSemester;
+    @Size(max = 45)
+    @Column(name = "batch_tag")
+    private String batchTag;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentBatchIdFk")
     private Collection<AdminInfo> adminInfoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentBatchIdFk")
@@ -100,6 +104,14 @@ public class StudentBatch implements Serializable {
 
     public void setMaxSemester(Integer maxSemester) {
         this.maxSemester = maxSemester;
+    }
+
+    public String getBatchTag() {
+        return batchTag;
+    }
+
+    public void setBatchTag(String batchTag) {
+        this.batchTag = batchTag;
     }
 
     @XmlTransient
@@ -182,7 +194,7 @@ public class StudentBatch implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.StudentBatch[ studentBatchId=" + studentBatchId + " ]";
+        return "me.shafin.sustord.entities.StudentBatch[ studentBatchId=" + studentBatchId + " ]";
     }
     
 }

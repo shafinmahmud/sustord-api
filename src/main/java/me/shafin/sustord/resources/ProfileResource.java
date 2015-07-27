@@ -11,10 +11,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import me.shafin.sustord.exceptions.DataNotFoundException;
+
 import me.shafin.sustord.models.ErrorMessage;
-import me.shafin.sustord.models.StudentAcademicProfile;
-import me.shafin.sustord.models.StudentPersonalProfile;
+import me.shafin.sustord.models.AcademicProfile;
+import me.shafin.sustord.models.PersonalProfile;
 import me.shafin.sustord.services.AcademicInfoService;
 import me.shafin.sustord.services.PersonalInfoService;
 import org.hibernate.HibernateException;
@@ -43,7 +43,7 @@ public class ProfileResource {
     public Response getPersonalProfile(@PathParam("id") String ID) {
       
         try {
-            StudentPersonalProfile personal = new PersonalInfoService(ID).getAllPersonalInfo();
+            PersonalProfile personal = new PersonalInfoService(ID).getPersonalInfo();
             return Response.ok()
                     .entity(personal)
                     .build();
@@ -62,7 +62,7 @@ public class ProfileResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAcademicProfile(@PathParam("id") String ID) {
         try {
-            StudentAcademicProfile academic = new AcademicInfoService(ID).getAllAcademicInfo();
+            AcademicProfile academic = new AcademicInfoService(ID).getAcademicProfile();
             return Response.ok()
                     .entity(academic)
                     .build();

@@ -38,8 +38,10 @@ public class CurriculumResultService extends StudentIdentityService {
             SQLException {
         CurriculumResult curriculumResult = new CurriculumResult();
 
-        //setting StudentInfoHeader
-        curriculumResult.setStudentBasicInfo(BasicInfoHelper.getStudentIntroHeader(studentInfo));
+        //setting Student
+        curriculumResult.setStudent(BasicInfoHelper.getStudent(studentInfo));
+        //setting BatchInformation
+        curriculumResult.setBatchInformation(BasicInfoHelper.getBatchInformation(studentInfo));
         //setting curriculmSemester
         curriculumResult.setCurriculumSemester(semester);
 
@@ -71,10 +73,12 @@ public class CurriculumResultService extends StudentIdentityService {
         int syllabusId = SyllabusService.getSyllabusIdOfCourse(studentInfo.getStudentBatchIdFk(), courseCode);
         List<CourseRegistration> registrations = CourseRegistrationDao
                 .getCourseAttempts(studentInfo.getStudentInfoId(), syllabusId);
-        //sorting courseRegistration on attendedSemester value
-        Collections.sort(registrations);
 
         if (registrations != null) {
+
+            //sorting courseRegistration on attendedSemester value
+            Collections.sort(registrations);
+
             List<Report> results = new ArrayList<>();
 
             boolean regularlyAttended = false;
@@ -98,7 +102,7 @@ public class CurriculumResultService extends StudentIdentityService {
                     regularlyAttended = true;
                 } else {
                     if (!regularlyAttended) {
-                        result.setRegistrationStatus(ModelConstants.IRREGULAR_COURSE);
+                        result.setRegistrationStatus(ModelConstants.PENDING_COURSE);
                     } else {
                         result.setRegistrationStatus(ModelConstants.DROPPED_COURSE);
                     }
@@ -106,7 +110,9 @@ public class CurriculumResultService extends StudentIdentityService {
 
                 results.add(result);
             }
+
             return results;
+
         }
         return null;
     }
@@ -125,21 +131,23 @@ public class CurriculumResultService extends StudentIdentityService {
         for (CourseReport c : courseResults) {
             boolean passFlag = false;
             List<Report> results = c.getResults();
-            for (Report r : results) {
-                if (r.getGrade().getGradePoint() > 0.00 && !passFlag) {
-                    double credit = c.getCourseInSyllabus().getCourseModel().getCredit();
+            if (results != null) {
+                for (Report r : results) {
+                    if (r.getGrade().getGradePoint() > 0.00 && !passFlag) {
+                        double credit = c.getCourseInSyllabus().getCourseModel().getCredit();
 
-                    if (c.getCourseInSyllabus().getCourseModel().isTheoryCourse()) {
-                        theoryCourseCount++;
-                        theoryCreditCount += credit;
-                        totalTheoryHrsWeek += c.getCourseInSyllabus().getHoursWeek();
+                        if (c.getCourseInSyllabus().getCourseModel().isTheoryCourse()) {
+                            theoryCourseCount++;
+                            theoryCreditCount += credit;
+                            totalTheoryHrsWeek += c.getCourseInSyllabus().getHoursWeek();
 
-                    } else {
-                        labCourseCount++;
-                        labCreditCount += credit;
-                        totalLabHoursWeek += c.getCourseInSyllabus().getHoursWeek();
+                        } else {
+                            labCourseCount++;
+                            labCreditCount += credit;
+                            totalLabHoursWeek += c.getCourseInSyllabus().getHoursWeek();
+                        }
+                        passFlag = true;
                     }
-                    passFlag = true;
                 }
             }
         }

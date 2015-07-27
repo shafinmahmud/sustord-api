@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PersonalInfo.findByPresentAddress", query = "SELECT p FROM PersonalInfo p WHERE p.presentAddress = :presentAddress"),
     @NamedQuery(name = "PersonalInfo.findByPermanentAddress", query = "SELECT p FROM PersonalInfo p WHERE p.permanentAddress = :permanentAddress"),
     @NamedQuery(name = "PersonalInfo.findByEmail", query = "SELECT p FROM PersonalInfo p WHERE p.email = :email"),
-    @NamedQuery(name = "PersonalInfo.findByContact", query = "SELECT p FROM PersonalInfo p WHERE p.contact = :contact")})
+    @NamedQuery(name = "PersonalInfo.findByContact", query = "SELECT p FROM PersonalInfo p WHERE p.contact = :contact"),
+    @NamedQuery(name = "PersonalInfo.findByPhotoUrl", query = "SELECT p FROM PersonalInfo p WHERE p.photoUrl = :photoUrl")})
 public class PersonalInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -254,7 +255,7 @@ public class PersonalInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.PersonalInfo[ personalInfoId=" + personalInfoId + " ]";
+        return "me.shafin.sustord.entities.PersonalInfo[ personalInfoId=" + personalInfoId + " ]";
     }
     
 }

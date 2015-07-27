@@ -11,81 +11,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AcademicProfile {
 
-    private StudentIntroHeader basicInfo;
-    
-    private int totalAcademicSemester;
-    private int maxAcademicSemester;
+    private Student student;
+    private BatchInformation batchInformation;
     
     private int currentAcademicSemester;
-    
-    private double currentCgpa;
+    private ResultNutShell academicReport;
 
     public AcademicProfile() {
 
     }
 
-    public AcademicProfile(String registrationNo, String name) {
-        super(registrationNo, name);
-    }
-
-    public AcademicProfile(DepartmentModel department, Program program,
-            String academicSession, int totalAcademicSemester,
-            int maxAcademicSemester, int currentAcademicSemester,
-            int totalCourses, int coursesCompleted, double totalCredits,
-            double creditsCompleted, double currentCgpa,
-            String registrationNo, String name) {
-        super(registrationNo, name);
-        this.department = department;
-        this.program = program;
-        this.academicSession = academicSession;
-        this.totalAcademicSemester = totalAcademicSemester;
-        this.maxAcademicSemester = maxAcademicSemester;
+    public AcademicProfile(Student student, BatchInformation batchInformation, 
+            int currentAcademicSemester, ResultNutShell academicReport) {
+        this.student = student;
+        this.batchInformation = batchInformation;
         this.currentAcademicSemester = currentAcademicSemester;
-        this.totalCourses = totalCourses;
-        this.coursesCompleted = coursesCompleted;
-        this.totalCredits = totalCredits;
-        this.creditsCompleted = creditsCompleted;
-        this.currentCgpa = currentCgpa;
+        this.academicReport = academicReport;
     }
 
-    public DepartmentModel getDepartment() {
-        return department;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setDepartment(DepartmentModel department) {
-        this.department = department;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public Program getProgram() {
-        return program;
+    public BatchInformation getBatchInformation() {
+        return batchInformation;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
-    public String getAcademicSession() {
-        return academicSession;
-    }
-
-    public void setAcademicSession(String academicSession) {
-        this.academicSession = academicSession;
-    }
-
-    public int getTotalAcademicSemester() {
-        return totalAcademicSemester;
-    }
-
-    public void setTotalAcademicSemester(int totalAcademicSemester) {
-        this.totalAcademicSemester = totalAcademicSemester;
-    }
-
-    public int getMaxAcademicSemester() {
-        return maxAcademicSemester;
-    }
-
-    public void setMaxAcademicSemester(int maxAcademicSemester) {
-        this.maxAcademicSemester = maxAcademicSemester;
+    public void setBatchInformation(BatchInformation batchInformation) {
+        this.batchInformation = batchInformation;
     }
 
     public int getCurrentAcademicSemester() {
@@ -96,44 +53,13 @@ public class AcademicProfile {
         this.currentAcademicSemester = currentAcademicSemester;
     }
 
-    public int getTotalCourses() {
-        return totalCourses;
+    public ResultNutShell getAcademicReport() {
+        return academicReport;
     }
 
-    public void setTotalCourses(int totalCourses) {
-        this.totalCourses = totalCourses;
+    public void setAcademicReport(ResultNutShell academicReport) {
+        this.academicReport = academicReport;
     }
-
-    public int getCoursesCompleted() {
-        return coursesCompleted;
-    }
-
-    public void setCoursesCompleted(int coursesCompleted) {
-        this.coursesCompleted = coursesCompleted;
-    }
-
-    public double getTotalCredits() {
-        return totalCredits;
-    }
-
-    public void setTotalCredits(double totalCredits) {
-        this.totalCredits = totalCredits;
-    }
-
-    public double getCreditsCompleted() {
-        return creditsCompleted;
-    }
-
-    public void setCreditsCompleted(double creditsCompleted) {
-        this.creditsCompleted = creditsCompleted;
-    }
-
-    public double getCurrentCgpa() {
-        return currentCgpa;
-    }
-
-    public void setCurrentCgpa(double currentCgpa) {
-        this.currentCgpa = currentCgpa;
-    }
-
+    
+    
 }

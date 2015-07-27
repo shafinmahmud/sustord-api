@@ -29,7 +29,7 @@ public class StudentIdentityService {
     /* Constructor helper for prototype AcademicInfoService  */
     public static StudentInfo forProtypeIdentityService(String registrationNo) throws HibernateException, 
             SQLException, NullPointerException{
-        return StudentInfoDao.getStudentInfoObject(registrationNo);
+        return StudentInfoDao.getStudentInfo(registrationNo);
     }
     
 }

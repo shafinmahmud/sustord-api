@@ -1,6 +1,7 @@
 
 package me.shafin.sustord.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import me.shafin.sustord.entities.PersonalInfo;
 import me.shafin.sustord.utilities.HibernateUtil;
@@ -14,7 +15,7 @@ import org.hibernate.Session;
  */
 public class PersonalInfoDao {
     
-    public static PersonalInfo getPersonalInfoObject(int personalInfoId) throws Exception {
+    public static PersonalInfo getPersonalInfoObject(int personalInfoId) throws HibernateException, SQLException{
         PersonalInfo personalInfo;
         
         Session session = HibernateUtil.getSessionFactory().openSession();

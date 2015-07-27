@@ -51,7 +51,7 @@ public class ClassRoutine implements Serializable {
     @ManyToOne(optional = false)
     private TimeSlot timeSlotIdFk;
     @JoinColumn(name = "syllabus_id_fk", referencedColumnName = "syllabus_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Syllabus syllabusIdFk;
 
     public ClassRoutine() {
@@ -129,7 +129,7 @@ public class ClassRoutine implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.ClassRoutine[ classRoutineId=" + classRoutineId + " ]";
+        return "me.shafin.sustord.entities.ClassRoutine[ classRoutineId=" + classRoutineId + " ]";
     }
     
 }

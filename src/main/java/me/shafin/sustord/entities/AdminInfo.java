@@ -118,7 +118,7 @@ public class AdminInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.AdminInfo[ adminInfoId=" + adminInfoId + " ]";
+        return "me.shafin.sustord.entities.AdminInfo[ adminInfoId=" + adminInfoId + " ]";
     }
     
 }

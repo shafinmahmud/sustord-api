@@ -110,7 +110,7 @@ public class School implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.School[ schoolId=" + schoolId + " ]";
+        return "me.shafin.sustord.entities.School[ schoolId=" + schoolId + " ]";
     }
     
 }

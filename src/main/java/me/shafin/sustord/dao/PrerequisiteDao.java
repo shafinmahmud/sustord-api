@@ -2,6 +2,7 @@
  */
 package me.shafin.sustord.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.shafin.sustord.entities.Prerequisite;
@@ -16,7 +17,8 @@ import org.hibernate.Session;
  */
 public class PrerequisiteDao {
     
-     public static List<Prerequisite> getPrerequisiteObjectsList(int syllabusIdFk) throws Exception {
+     public static List<Prerequisite> getPrerequisiteObjectsList(int syllabusIdFk) throws SQLException,
+             NullPointerException{
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -33,7 +35,7 @@ public class PrerequisiteDao {
             if (!prerequisiteCourseList.isEmpty()) {
                 return prerequisiteCourseList;
             } else {
-                return new ArrayList<Prerequisite>();
+                return null;
             }
         } catch (Exception e) {
             session.getTransaction().rollback();

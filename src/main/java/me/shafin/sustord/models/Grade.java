@@ -49,7 +49,11 @@ public class Grade {
     }
 
     private static double getEquivalentGradePoint(String gradeLetter) {
-        gradeLetter = gradeLetter.trim();
+        
+        if(gradeLetter == null){
+            return 0.00;
+        }
+        
         switch (gradeLetter) {
             case "A+":
                 return 4.00;
@@ -101,7 +105,7 @@ public class Grade {
         } else if (point >= 0 && point < 2) {
             return "F";
         } else {
-            return null;
+            return "N/A";
         }
     }
 }

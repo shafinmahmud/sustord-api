@@ -14,28 +14,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CurriculumResult {
     
     private Student student;
-    
-    private DepartmentModel department;
-    private Program program;
-    private String academicSession;
+    private BatchInformation batchInformation;
     
     private int curriculumSemester;
-    private List<CourseResult> courseResults;
-    private CreditsSummation completedCreditsSummation;
+    private List<CourseReport> attendedCourseResults;
+    private CurriCreditsSum offeredCreditsSum;
+    private CurriCreditsSum completedCreditsSum;
 
     public CurriculumResult() {
     }
 
-    public CurriculumResult(Student student, DepartmentModel department, 
-            Program program, String academicSession, int curriculumSemester, 
-            List<CourseResult> courseResults, CreditsSummation completedCreditsSummation) {
+    public CurriculumResult(Student student, BatchInformation batchInformation, 
+            int curriculumSemester, List<CourseReport> attendedCourseResults, 
+            CurriCreditsSum offeredCreditsSum, CurriCreditsSum completedCreditsSum) {
         this.student = student;
-        this.department = department;
-        this.program = program;
-        this.academicSession = academicSession;
+        this.batchInformation = batchInformation;
         this.curriculumSemester = curriculumSemester;
-        this.courseResults = courseResults;
-        this.completedCreditsSummation = completedCreditsSummation;
+        this.attendedCourseResults = attendedCourseResults;
+        this.offeredCreditsSum = offeredCreditsSum;
+        this.completedCreditsSum = completedCreditsSum;
     }
 
     public Student getStudent() {
@@ -46,28 +43,12 @@ public class CurriculumResult {
         this.student = student;
     }
 
-    public DepartmentModel getDepartment() {
-        return department;
+    public BatchInformation getBatchInformation() {
+        return batchInformation;
     }
 
-    public void setDepartment(DepartmentModel department) {
-        this.department = department;
-    }
-
-    public Program getProgram() {
-        return program;
-    }
-
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
-    public String getAcademicSession() {
-        return academicSession;
-    }
-
-    public void setAcademicSession(String academicSession) {
-        this.academicSession = academicSession;
+    public void setBatchInformation(BatchInformation batchInformation) {
+        this.batchInformation = batchInformation;
     }
 
     public int getCurriculumSemester() {
@@ -78,20 +59,29 @@ public class CurriculumResult {
         this.curriculumSemester = curriculumSemester;
     }
 
-    public List<CourseResult> getCourseResults() {
-        return courseResults;
+    public List<CourseReport> getAttendedCourseResults() {
+        return attendedCourseResults;
     }
 
-    public void setCourseResults(List<CourseResult> courseResults) {
-        this.courseResults = courseResults;
+    public void setAttendedCourseResults(List<CourseReport> attendedCourseResults) {
+        this.attendedCourseResults = attendedCourseResults;
     }
 
-    public CreditsSummation getCompletedCreditsSummation() {
-        return completedCreditsSummation;
+    public CurriCreditsSum getOfferedCreditsSum() {
+        return offeredCreditsSum;
     }
 
-    public void setCompletedCreditsSummation(CreditsSummation completedCreditsSummation) {
-        this.completedCreditsSummation = completedCreditsSummation;
+    public void setOfferedCreditsSum(CurriCreditsSum offeredCreditsSum) {
+        this.offeredCreditsSum = offeredCreditsSum;
     }
 
+    public CurriCreditsSum getCompletedCreditsSum() {
+        return completedCreditsSum;
+    }
+
+    public void setCompletedCreditsSum(CurriCreditsSum completedCreditsSum) {
+        this.completedCreditsSum = completedCreditsSum;
+    }
+
+    
 }

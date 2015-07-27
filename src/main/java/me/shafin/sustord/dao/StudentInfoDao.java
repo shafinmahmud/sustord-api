@@ -6,65 +6,69 @@ import java.sql.SQLException;
 import java.util.List;
 import me.shafin.sustord.entities.StudentInfo;
 import me.shafin.sustord.utilities.HibernateUtil;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author SHAFIN
  */
+@Component
 public class StudentInfoDao {
 
-    public static StudentInfo getStudentInfoObject(String registrationNo) throws HibernateException, SQLException {
-        StudentInfo studentInfo = null;
+    public StudentInfo getStudentInfo(int studentInfoId) throws HibernateException, SQLException {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
         try {
-
-            session.beginTransaction();
-            String hql = "from StudentInfo where registrationNo = :reg";
-            Query query = session.createQuery(hql);
-            query.setParameter("reg", registrationNo);
-
-            List<StudentInfo> infos = (List<StudentInfo>) query.list();
-
-            session.getTransaction().commit();
-
-            if (!infos.isEmpty()) {
-                studentInfo = infos.get(0);
-            }
-        } catch (Exception e) {
-            throw new ExceptionInInitializerError(e.getMessage());
+            return (StudentInfo) session.get(StudentInfo.class, studentInfoId);
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException(e.getMessage());
         } finally {
             session.close();
         }
-
-        return studentInfo;
     }
 
-    public static List<StudentInfo> getStudentInfoObjects(Integer studentBatch) throws HibernateException, SQLException {
-
+    public static StudentInfo getStudentInfo(String registrationNo) throws HibernateException, SQLException {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         try {
-
-            session.beginTransaction();
-            String hql = "from StudentInfo where studentBatchIdFk = :batchId";
-            Query query = session.createQuery(hql);
-            query.setInteger("batchId", studentBatch);
-
-            List<StudentInfo> infos = (List<StudentInfo>) query.list();
+            Criteria criteria = session.createCriteria(StudentInfo.class);
+            criteria.add(Restrictions.eq("registrationNo", registrationNo));
+            StudentInfo studentInfo = (StudentInfo) criteria.uniqueResult();
 
             session.getTransaction().commit();
-
-            if (!infos.isEmpty()) {
-                return infos;
-            }
-        } catch (Exception e) {
-            throw new ExceptionInInitializerError(e.getMessage());
+            return studentInfo;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException(e.getMessage());
         } finally {
             session.close();
         }
-        return null;
+    }
+
+    public static List<StudentInfo> getStudentInfos(int studentBatchId) throws HibernateException, 
+            SQLException {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        try {
+            Criteria criteria = session.createCriteria(StudentInfo.class);
+            criteria.add(Restrictions.eq("studentBatchIdFk", studentBatchId));
+            List<StudentInfo> studentInfos = (List<StudentInfo>) criteria.list();
+
+            session.getTransaction().commit();
+            return studentInfos;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException(e.getMessage());
+        } finally {
+            session.close();
+        }
     }
 
     public static boolean setStudentPassword(StudentInfo studentInfo, String password)

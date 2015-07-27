@@ -17,7 +17,7 @@ import org.hibernate.HibernateException;
  */
 public class PersonalInfoService extends StudentIdentityService {
 
-    private static final String NULL_RESPONSE = "null";
+    private static final String NULL_RESPONSE = "";
     private static final String ERROR_RESPONSE = "500 Server Error";
 
     /* Constructor thats is private and get accesses through static helper method  */

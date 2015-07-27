@@ -2,50 +2,65 @@
  */
 package me.shafin.sustord.models;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author SHAFIN
  */
+
+@XmlRootElement
 public class CumulativeResult {
     
-    private CreditsSummation soFarRegisteredCreditsSummation;
-    private CreditsSummation soFarCompletedCreditsSummation;
-    
-    private Grade CGPA;
+    private Student student;
+    private BatchInformation batchInformation;
+    private CurriCreditsSum offeredCourse;
+    private ResultNutShell resultSummary;
 
     public CumulativeResult() {
     }
 
-    public CumulativeResult(CreditsSummation soFarRegisteredCreditsSummation, 
-            CreditsSummation soFarCompletedCreditsSummation, Grade CGPA) {
-        this.soFarRegisteredCreditsSummation = soFarRegisteredCreditsSummation;
-        this.soFarCompletedCreditsSummation = soFarCompletedCreditsSummation;
-        this.CGPA = CGPA;
+    public CumulativeResult(Student student, 
+            BatchInformation batchInformation, 
+            CurriCreditsSum offeredCourse, 
+            ResultNutShell resultSummary) {
+        this.student = student;
+        this.batchInformation = batchInformation;
+        this.offeredCourse = offeredCourse;
+        this.resultSummary = resultSummary;
     }
 
-    public CreditsSummation getSoFarRegisteredCreditsSummation() {
-        return soFarRegisteredCreditsSummation;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setSoFarRegisteredCreditsSummation(CreditsSummation soFarRegisteredCreditsSummation) {
-        this.soFarRegisteredCreditsSummation = soFarRegisteredCreditsSummation;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public CreditsSummation getSoFarCompletedCreditsSummation() {
-        return soFarCompletedCreditsSummation;
+    public BatchInformation getBatchInformation() {
+        return batchInformation;
     }
 
-    public void setSoFarCompletedCreditsSummation(CreditsSummation soFarCompletedCreditsSummation) {
-        this.soFarCompletedCreditsSummation = soFarCompletedCreditsSummation;
+    public void setBatchInformation(BatchInformation batchInformation) {
+        this.batchInformation = batchInformation;
     }
 
-    public Grade getCGPA() {
-        return CGPA;
+    public CurriCreditsSum getOfferedCourse() {
+        return offeredCourse;
     }
 
-    public void setCGPA(Grade CGPA) {
-        this.CGPA = CGPA;
+    public void setOfferedCourse(CurriCreditsSum offeredCourse) {
+        this.offeredCourse = offeredCourse;
     }
 
-   
+    public ResultNutShell getResultSummary() {
+        return resultSummary;
+    }
+
+    public void setResultSummary(ResultNutShell resultSummary) {
+        this.resultSummary = resultSummary;
+    }
+
+    
 }

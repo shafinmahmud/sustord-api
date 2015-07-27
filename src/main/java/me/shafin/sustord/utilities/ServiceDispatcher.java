@@ -34,7 +34,7 @@ public class ServiceDispatcher {
             }
         }
 
-        StudentInfo newStudentInfo = StudentInfoDao.getStudentInfoObject(registrationNo);
+        StudentInfo newStudentInfo = StudentInfoDao.getStudentInfo(registrationNo);
         if(newStudentInfo != null){
             singletonStudentInfoList.add(newStudentInfo);
             System.out.println("STACK-SIZE: "+singletonStudentInfoList.size());

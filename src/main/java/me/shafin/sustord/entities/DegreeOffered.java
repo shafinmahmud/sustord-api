@@ -113,7 +113,7 @@ public class DegreeOffered implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.DegreeOffered[ degreeOfferedId=" + degreeOfferedId + " ]";
+        return "me.shafin.sustord.entities.DegreeOffered[ degreeOfferedId=" + degreeOfferedId + " ]";
     }
     
 }

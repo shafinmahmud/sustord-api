@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- This web.xml file is not required when using Servlet 3.0 container, 
-    see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html -->
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
+    see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html --><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -16,6 +12,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+<persistence-unit-ref>
+<persistence-unit-ref-name>persistence-factory</persistence-unit-ref-name>
+<persistence-unit-name>me.shafin_sustord-api_war_0.0.1-SNAPSHOTPU</persistence-unit-name>
+</persistence-unit-ref>
 </web-app>

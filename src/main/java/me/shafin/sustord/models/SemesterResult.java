@@ -13,35 +13,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SemesterResult {
 
     private Student student;
-
-    private DepartmentModel department;
-    private Program program;
-    private String academicSession;
-
+    private BatchInformation batchInformation;
+    
     private int examSemester;
-    private List<CourseResult> registeredCourseResults;
+    private List<CourseReport> registeredCourseReports;
 
-    private ResultSum semesterResult;
-    private ResultSum cumulativeResult;
+    private ResultNutShell ResultThisSemester;
+    private ResultNutShell ResultUptoThisSemester;
 
     public SemesterResult() {
     }
 
-    public SemesterResult(Student student, DepartmentModel department, 
-            Program program, String academicSession, int examSemester, 
-            List<CourseResult> registeredCourseResults, 
-            ResultSum semesterResult, ResultSum cumulativeResult) {
+    public SemesterResult(Student student, BatchInformation batchInformation, 
+            int examSemester, List<CourseReport> registeredCourseReports, 
+            ResultNutShell ResultThisSemester, ResultNutShell ResultUptoThisSemester) {
         this.student = student;
-        this.department = department;
-        this.program = program;
-        this.academicSession = academicSession;
+        this.batchInformation = batchInformation;
         this.examSemester = examSemester;
-        this.registeredCourseResults = registeredCourseResults;
-        this.semesterResult = semesterResult;
-        this.cumulativeResult = cumulativeResult;
+        this.registeredCourseReports = registeredCourseReports;
+        this.ResultThisSemester = ResultThisSemester;
+        this.ResultUptoThisSemester = ResultUptoThisSemester;
     }
 
-    
     public Student getStudent() {
         return student;
     }
@@ -50,28 +43,12 @@ public class SemesterResult {
         this.student = student;
     }
 
-    public DepartmentModel getDepartment() {
-        return department;
+    public BatchInformation getBatchInformation() {
+        return batchInformation;
     }
 
-    public void setDepartment(DepartmentModel department) {
-        this.department = department;
-    }
-
-    public Program getProgram() {
-        return program;
-    }
-
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
-    public String getAcademicSession() {
-        return academicSession;
-    }
-
-    public void setAcademicSession(String academicSession) {
-        this.academicSession = academicSession;
+    public void setBatchInformation(BatchInformation batchInformation) {
+        this.batchInformation = batchInformation;
     }
 
     public int getExamSemester() {
@@ -82,29 +59,29 @@ public class SemesterResult {
         this.examSemester = examSemester;
     }
 
-    public List<CourseResult> getRegisteredCourseResults() {
-        return registeredCourseResults;
+    public List<CourseReport> getRegisteredCourseReports() {
+        return registeredCourseReports;
     }
 
-    public void setRegisteredCourseResults(List<CourseResult> registeredCourseResults) {
-        this.registeredCourseResults = registeredCourseResults;
+    public void setRegisteredCourseReports(List<CourseReport> registeredCourseReports) {
+        this.registeredCourseReports = registeredCourseReports;
     }
 
-    public ResultSum getSemesterResult() {
-        return semesterResult;
+    public ResultNutShell getResultThisSemester() {
+        return ResultThisSemester;
     }
 
-    public void setSemesterResult(ResultSum semesterResult) {
-        this.semesterResult = semesterResult;
+    public void setResultThisSemester(ResultNutShell ResultThisSemester) {
+        this.ResultThisSemester = ResultThisSemester;
     }
 
-    public ResultSum getCumulativeResult() {
-        return cumulativeResult;
+    public ResultNutShell getResultUptoThisSemester() {
+        return ResultUptoThisSemester;
     }
 
-    public void setCumulativeResult(ResultSum cumulativeResult) {
-        this.cumulativeResult = cumulativeResult;
+    public void setResultUptoThisSemester(ResultNutShell ResultUptoThisSemester) {
+        this.ResultUptoThisSemester = ResultUptoThisSemester;
     }
 
-    
+   
 }

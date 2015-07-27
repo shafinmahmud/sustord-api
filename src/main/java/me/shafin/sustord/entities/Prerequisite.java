@@ -96,7 +96,7 @@ public class Prerequisite implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.Prerequisite[ prerequisiteId=" + prerequisiteId + " ]";
+        return "me.shafin.sustord.entities.Prerequisite[ prerequisiteId=" + prerequisiteId + " ]";
     }
     
 }

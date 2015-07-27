@@ -285,7 +285,7 @@ public class AdminDashboardProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "me.shafin.sustord.entity.AdminDashboardProfile[ adminDashboardProfileId=" + adminDashboardProfileId + " ]";
+        return "me.shafin.sustord.entities.AdminDashboardProfile[ adminDashboardProfileId=" + adminDashboardProfileId + " ]";
     }
     
 }

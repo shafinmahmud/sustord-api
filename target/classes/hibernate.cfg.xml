@@ -5,17 +5,7 @@
 
 <hibernate-configuration>
 
-    <session-factory>
-        <!-- Database connection settings <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property> 
-            <property name="hibernate.connection.url">jdbc:mysql://127.3.214.2:3306/shafin_sustord</property> 
-            <property name="hibernate.connection.username">adminA1k8pBf</property> <property 
-            name="hibernate.connection.password">qZvnWqvPuV6E</property> -->
-
-        <!-- Database connection settings FOR Openshift MySQL forwarded Connection 
-            in Localhost <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property> 
-            <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3307/shafin_sustord</property> 
-            <property name="hibernate.connection.username">adminA1k8pBf</property> <property 
-            name="hibernate.connection.password">qZvnWqvPuV6E</property> -->
+    <session-factory> 
 
         <!-- Database connection -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
