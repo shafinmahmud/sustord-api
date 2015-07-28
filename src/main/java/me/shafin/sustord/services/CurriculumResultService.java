@@ -95,16 +95,16 @@ public class CurriculumResultService extends StudentIdentityService {
                 //setting registrationStatus
                 int offeringSemester = r.getSyllabusIdFk().getSemester();
                 if (offeringSemester == r.getAttendSemester()) {
-                    result.setRegistrationStatus(ModelConstants.REGULAR_COURSE);
+                    result.setRegistrationStatus(ModelConstants.REGULAR);
                     regularlyAttended = true;
                 } else if (offeringSemester > r.getAttendSemester()) {
-                    result.setRegistrationStatus(ModelConstants.ADVANCED_COURSE);
+                    result.setRegistrationStatus(ModelConstants.ADVANCE);
                     regularlyAttended = true;
                 } else {
                     if (!regularlyAttended) {
-                        result.setRegistrationStatus(ModelConstants.PENDING_COURSE);
+                        result.setRegistrationStatus(ModelConstants.PENDING);
                     } else {
-                        result.setRegistrationStatus(ModelConstants.DROPPED_COURSE);
+                        result.setRegistrationStatus(ModelConstants.DROP);
                     }
                 }
 

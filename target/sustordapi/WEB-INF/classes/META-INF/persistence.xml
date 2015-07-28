@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="me.shafin_sustord-api_war_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>me.shafin.sustord.exceptions.Servers</class>
+    <class>me.shafin.sustord.entities.StudentBatch</class>
+    <class>me.shafin.sustord.entities.Department</class>
+    <class>me.shafin.sustord.entities.DegreeOffered</class>
+    <class>me.shafin.sustord.entities.AdminInfo</class>
+    <class>me.shafin.sustord.entities.CourseRegistration</class>
+    <class>me.shafin.sustord.entities.StudentInfo</class>
+    <class>me.shafin.sustord.entities.TimeSlot</class>
+    <class>me.shafin.sustord.entities.AdminDashboardProfile</class>
+    <class>me.shafin.sustord.entities.Degree</class>
+    <class>me.shafin.sustord.entities.ClassRoutine</class>
+    <class>me.shafin.sustord.entities.Syllabus</class>
+    <class>me.shafin.sustord.entities.AdminDashboardCourseRegistration</class>
+    <class>me.shafin.sustord.entities.School</class>
+    <class>me.shafin.sustord.entities.Prerequisite</class>
+    <class>me.shafin.sustord.entities.Course</class>
+    <class>me.shafin.sustord.entities.PersonalInfo</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
+    </properties>
+  </persistence-unit>
+</persistence>

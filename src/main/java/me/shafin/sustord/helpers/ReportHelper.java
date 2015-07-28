@@ -20,7 +20,7 @@ public class ReportHelper {
         boolean pendingFlag = false;
 
         if (results != null) {
-            System.out.println("ya its :/");
+            //System.out.println("ya its :/");
             for (Report r : results) {
                 if (!r.getGrade().getGradeLetter().equals("N/A")) {
                     if (r.getGrade().getGradePoint() > 0.00) {
