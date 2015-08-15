@@ -5,7 +5,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import me.shafin.sustord.entities.StudentInfo;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-07-27T19:29:19")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-16T00:59:09")
 @StaticMetamodel(PersonalInfo.class)
 public class PersonalInfo_ { 
 
